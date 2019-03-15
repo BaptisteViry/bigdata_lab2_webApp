@@ -1,0 +1,38 @@
+{% load crispy_forms_tags %}
+
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+    crossorigin="anonymous">
+<h5 class="display-4">Pregunta RF2</h5>
+
+
+<div class="container">
+
+<form action="/lab/rf2/" method="POST">
+    {% csrf_token %}
+    {{ form | crispy }}
+    <input type="submit" value="Enviar">
+    <div>
+        Day: {{day}}
+        Month: {{month}}
+    </div>
+    </form>
+
+</div>
+
+<div class="container">
+Taxi1: {{type1}}
+Promedio: {{average1}}
+Min: {{min1}}
+Max: {{max1}}
+Count taxi: {{countTaxi1}}
+<br>
+Taxi2: {{type2}}
+Promedio: {{average2}}
+Min: {{min2}}
+Max: {{max2}}
+Count taxi: {{countTaxi2}}
+<br>
+Count total: {{countTotal}}
+</div>
+<a class="btn btn-secondary m-3" href="/lab">Back</a>
