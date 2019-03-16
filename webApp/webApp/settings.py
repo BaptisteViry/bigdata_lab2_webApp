@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ["172.24.101.46","127.0.0.1"]
 # Application definition
 
 INSTALLED_APPS = [
+    'lab',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -58,7 +59,7 @@ ROOT_URLCONF = 'webApp.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ["C:\\Users\\Baptiste\\Documents\\Uniandes\\big_data\\lab2\\webApp\\bigdata_lab2_webApp\\webApp\\lab\\templates"],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

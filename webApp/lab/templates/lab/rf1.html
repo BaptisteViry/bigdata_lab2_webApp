@@ -1,0 +1,38 @@
+{% load crispy_forms_tags %}
+
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+    crossorigin="anonymous">
+<h5 class="display-4">Pregunta RF1</h5>
+
+
+<div class="container">
+
+<form action="/lab/rf1/" method="POST">
+    {% csrf_token %}
+    {{ form | crispy }}
+    <input type="submit" value="Enviar">
+    
+    </form>
+
+</div>
+
+<div class="container">
+    <table class="table table-striped">
+        <thead><tr>
+            <th>One</th>
+            
+        </tr></thead>
+        <tbody>
+      
+        {% for row in data %}
+        <tr>
+            <td>{{ row.lugar }}</td>           
+            
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+<a class="btn btn-secondary m-3" href="/lab">Back</a>

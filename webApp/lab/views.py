@@ -5,7 +5,9 @@ import subprocess
 import paramiko
 import sys
 
+from .forms import RF1Form
 from .forms import RF2Form
+
 
 
 # Create your views here.
@@ -97,5 +99,70 @@ def rf2(request):
    # return render(request, 'lab/rf2.html', {'resultado':"stdout.readlines()"})
 
 def rf1(request):
-    return HttpResponse("rf1 page")
+    def printOut(stdout):
+        resultado=""
+        for line in iter(lambda: stdout.readline(2048), ""):
+            resultado+="  "+line
+            print(line)
 
+    resultado=0
+    if request.method=='POST':
+        form=RF1Form(request.POST)
+
+        if form.is_valid():
+            year=form.cleaned_data['year']
+            month = form.cleaned_data['month']
+            horaInicio = form.cleaned_data['horaInicio']
+            horaFin=form.cleaned_data['horaFin']
+            
+            output=""
+            command = "pedro/runRF1.sh "+year+" "+month+" "+str(horaInicio)+" "+str(horaFin)
+
+            ssh_client=paramiko.SSHClient()
+            ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+            ssh_client.connect(hostname="bigdata-cluster1-ambari.virtual.uniandes.edu.co",username="bigdata10",password="cVCGoui239m")
+            stdin,stdout,stderr=ssh_client.exec_command(command)
+          
+            for line in iter(lambda: stdout.readline(2048), ""):
+                output+="\n"+line
+            print("err")
+
+            print(stderr)
+
+            print ("RTA____:\n"+output)
+
+            #printOut(stderr)
+            #output=output.replace("\n","<br>")
+            #output=output.replace("\t","|")
+            #print ("RTA:\n"+output)
+
+            lineas=output.split("\n")
+            print("Lineas: "+str(lineas))
+            data=[]
+            
+            for linea in lineas:
+                if (len(linea)==0 or len(linea)==2):
+                    continue
+                cols=linea.split("\t")
+                print("linea: "+linea+"->")
+                print(cols)
+                if (cols.len==2):
+                    continue
+                data.append(Registro(cols[0],cols[1],cols[2],cols[3],cols[4]))
+
+            context={'form': form,'data':data} 
+            return render(request, 'lab/rf1.html', context)
+
+    else:
+        form=RF1Form()
+    
+   
+    return render(request, 'lab/rf1.html', {'form': form,'resultado':resultado})
+
+class Registro:
+    def __init__(self, lugar, dia, hora, cantidad, tipo):
+        self.lugar = lugar
+        self.dia = dia
+        self.hora = hora
+        self.cantidad = cantidad
+        self.tipo = tipo
