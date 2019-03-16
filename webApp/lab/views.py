@@ -146,7 +146,7 @@ def rf1(request):
                 cols=linea.split("\t")
                 print("linea: "+linea+"->")
                 print(cols)
-                if (cols.len==2):
+                if (len(cols)==2):
                     continue
                 data.append(Registro(cols[0],cols[1],cols[2],cols[3],cols[4]))
 

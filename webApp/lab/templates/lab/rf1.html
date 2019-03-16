@@ -20,14 +20,22 @@
 <div class="container">
     <table class="table table-striped">
         <thead><tr>
-            <th>One</th>
-            
+            <th>Lugar</th>
+            <th>Dia</th>
+            <th>Hora</th>
+            <th>Cantidad</th>
+            <th>Tipo</th>
+
         </tr></thead>
         <tbody>
       
         {% for row in data %}
         <tr>
-            <td>{{ row.lugar }}</td>           
+            <td>{{ row.lugar }}</td>   
+            <td>{{ row.dia }}</td>  
+            <td>{{ row.hora }}</td>  
+            <td>{{ row.cantidad }}</td>  
+            <td>{{ row.tipo }}</td>          
             
         </tr>
         {% endfor %}
