@@ -107,7 +107,7 @@ def rf1(request):
             print(line)
 
     resultado=0
-    zonas=pd.read_csv('d:\\tmp\zonas.csv')
+    zonas=pd.read_csv('zonas.csv')
     print(zonas.head())
     print(zonas.dtypes)
     if request.method=='POST':
