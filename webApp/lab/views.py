@@ -4,6 +4,7 @@ from django.template import loader
 import subprocess
 import paramiko
 import sys
+import pandas as pd
 
 from .forms import RF1Form
 from .forms import RF2Form
@@ -106,6 +107,9 @@ def rf1(request):
             print(line)
 
     resultado=0
+    zonas=pd.read_csv('d:\\tmp\zonas.csv')
+    print(zonas.head())
+    print(zonas.dtypes)
     if request.method=='POST':
         form=RF1Form(request.POST)
 
@@ -139,6 +143,8 @@ def rf1(request):
             lineas=output.split("\n")
             print("Lineas: "+str(lineas))
             data=[]
+            total=0
+            zona='';
             
             for linea in lineas:
                 if (len(linea)==0 or len(linea)==2):
@@ -147,10 +153,17 @@ def rf1(request):
                 print("linea: "+linea+"->")
                 print(cols)
                 if (len(cols)==2):
+                    total=cols[1]
                     continue
                 data.append(Registro(cols[0],cols[1],cols[2],cols[3],cols[4]))
 
-            context={'form': form,'data':data} 
+            data= pd.DataFrame.from_records([s.to_dict() for s in data])
+            data.LocationID=data.LocationID.astype('int64')            
+            data=pd.merge(zonas,data,how='inner',on='LocationID')
+            print (data.head())
+            print (data.dtypes)
+            #zona=data[0].Zone            
+            context={'form': form,'data':data,'total':total,'zona':zona} 
             return render(request, 'lab/rf1.html', context)
 
     else:
@@ -160,9 +173,18 @@ def rf1(request):
     return render(request, 'lab/rf1.html', {'form': form,'resultado':resultado})
 
 class Registro:
-    def __init__(self, lugar, dia, hora, cantidad, tipo):
-        self.lugar = lugar
+    def __init__(self, LocationID, dia, hora, cantidad, tipo):
+        self.LocationID = LocationID
         self.dia = dia
         self.hora = hora
         self.cantidad = cantidad
         self.tipo = tipo
+
+    def to_dict(self):
+        return {
+            'LocationID':self.LocationID,
+            'dia':self.dia,
+            'hora':self.hora,
+            'cantidad':self.cantidad,
+            'tipo':self.tipo
+        }

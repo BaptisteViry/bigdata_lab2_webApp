@@ -17,10 +17,12 @@
 
 </div>
 
+    <h1>{{row.Zone}}</h1>
+
 <div class="container">
     <table class="table table-striped">
         <thead><tr>
-            <th>Lugar</th>
+            <th>Zona</th>
             <th>Dia</th>
             <th>Hora</th>
             <th>Cantidad</th>
@@ -29,9 +31,9 @@
         </tr></thead>
         <tbody>
       
-        {% for row in data %}
+        {% for index, row in data.iterrows %}
         <tr>
-            <td>{{ row.lugar }}</td>   
+            <td>{{ row.Zone }}</td>
             <td>{{ row.dia }}</td>  
             <td>{{ row.hora }}</td>  
             <td>{{ row.cantidad }}</td>  
@@ -41,6 +43,9 @@
         {% endfor %}
         </tbody>
     </table>
+    <div>
+        Total: {{total}}
+    </div>
 
 </div>
 <a class="btn btn-secondary m-3" href="/lab">Back</a>
