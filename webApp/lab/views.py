@@ -226,24 +226,31 @@ def rf3(request):
                 #print("linea: "+linea+"->")
                 print(cols)
                 print(len(cols))
-                if ( len(cols) <= 2 ):
+                if ( len(cols) < 2 ):
                     continue
-                if( len(cols) == 5 ):
+                if ( len(cols) == 5 ):
+                    print("longitud 5")
                     data.append(RegistroTop(cols[0],cols[2],cols[4]))
-                if( len(cols) == 2 ):
+                if ( len(cols) == 2 ):
+                    print("longitud 2")
                     dataTop.append(RegistroTop(cols[0],cols[1],cols[1]))
+                
                 print(dataTop)
 
             data= pd.DataFrame.from_records([s.to_dict() for s in data])
             data.LocationID=data.LocationID.astype('int64')            
             data=pd.merge(zonas,data,how='inner',on='LocationID')
+            data.sort_values(by='cantidad', ascending=False,inplace=True)
 
             print(data)
-            print(dataTop)
+           
 
             dataTop= pd.DataFrame.from_records([s.to_dict() for s in dataTop])
             dataTop.LocationID=dataTop.LocationID.astype('int64')            
             dataTop=pd.merge(zonas,dataTop,how='inner',on='LocationID')
+            dataTop=dataTop.sort_values(by='Zone',ascending=False)
+
+            print(dataTop)
 
             
             context={'form': form,'data':data, 'datatop':dataTop } 
