@@ -22,6 +22,7 @@
 <div class="container">
     <table class="table table-striped">
         <thead><tr>
+            <th>Id Zona</th>
             <th>Zona</th>
             <th>Dia</th>
             <th>Hora</th>
@@ -33,6 +34,7 @@
       
         {% for index, row in data.iterrows %}
         <tr>
+            <td>{{ row.LocationID}}</td>
             <td>{{ row.Zone }}</td>
             <td>{{ row.dia }}</td>  
             <td>{{ row.hora }}</td>  
