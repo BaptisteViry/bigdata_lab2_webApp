@@ -125,8 +125,8 @@ def rf1(request):
 
             ssh_client=paramiko.SSHClient()
             ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-            #ssh_client.connect(hostname="bigdata-cluster1-ambari.virtual.uniandes.edu.co",username="bigdata10",password="cVCGoui239m")
-            ssh_client.connect(hostname="192.168.0.16",username="maria_dev",password="maria_dev",port=2222)
+            ssh_client.connect(hostname="bigdata-cluster1-ambari.virtual.uniandes.edu.co",username="bigdata10",password="cVCGoui239m")
+            #ssh_client.connect(hostname="192.168.0.16",username="maria_dev",password="maria_dev",port=2222)
             stdin,stdout,stderr=ssh_client.exec_command(command)
           
             for line in iter(lambda: stdout.readline(2048), ""):
