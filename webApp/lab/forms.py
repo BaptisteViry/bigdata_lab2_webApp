@@ -21,3 +21,11 @@ class RF1Form (forms.Form):
     month=forms.ChoiceField(label='Mes', choices=finalMonthChoices)
     horaInicio=forms.IntegerField(label='Hora Inicio')       
     horaFin=forms.IntegerField(label='Hora Fin')
+
+class RF3Form (forms.Form):
+    year=forms.ChoiceField(label='Año',choices=yearChoices)
+    month=forms.ChoiceField(label='Mes', choices=monthChoices)
+    horaInicio=forms.IntegerField(label='Hora Inicio')       
+    horaFin=forms.IntegerField(label='Hora Fin')
+    day=forms.ChoiceField(label='Día',choices=dayChoices)
+    top=forms.IntegerField(label='Defina top N')  

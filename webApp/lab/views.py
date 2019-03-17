@@ -8,6 +8,7 @@ import pandas as pd
 
 from .forms import RF1Form
 from .forms import RF2Form
+from .forms import RF3Form
 
 
 
@@ -175,6 +176,96 @@ def rf1(request):
     
    
     return render(request, 'lab/rf1.html', {'form': form,'resultado':resultado})
+
+def rf3(request):
+    def printOut(stdout):
+        resultado=""
+        for line in iter(lambda: stdout.readline(2048), ""):
+            resultado+="  "+line
+            print(line)
+
+    resultado=0
+    zonas=pd.read_csv('zonas.csv')
+    if request.method=='POST':
+        form=RF3Form(request.POST)
+
+        if form.is_valid():
+            year=form.cleaned_data['year']
+            month = form.cleaned_data['month']
+            horaInicio = form.cleaned_data['horaInicio']
+            horaFin=form.cleaned_data['horaFin']
+            day=form.cleaned_data['day']
+            top=form.cleaned_data['top']
+            
+            output=""
+            command = "mauricio/runRF3.sh "+year+" "+month+" "+str(horaInicio)+" "+str(horaFin) + " " + day + " " + str(top) 
+
+            print(command)
+
+            ssh_client=paramiko.SSHClient()
+            ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+            ssh_client.connect(hostname="bigdata-cluster1-ambari.virtual.uniandes.edu.co",username="bigdata10",password="cVCGoui239m")
+            stdin,stdout,stderr=ssh_client.exec_command(command)
+          
+            print(stdout)
+
+            for line in iter(lambda: stdout.readline(2048), ""):
+                output+="\n"+line
+           
+            #print ("RTA____:\n"+output)
+
+            lineas=output.split("\n")
+            print("Lineas: "+str(lineas))
+            data=[]
+            dataTop=[]
+            
+            for linea in lineas:
+                if (len(linea)==0 or len(linea)==2):
+                    continue
+                cols=linea.split("\t")
+                print("linea: "+linea+"->")
+                print(cols)
+                print(len(cols))
+                if ( len(cols) <= 2 ):
+                    continue
+                if( len(cols) == 5 ):
+                    data.append(RegistroTop(cols[0],cols[2],cols[4]))
+                if( len(cols) == 2 ):
+                    dataTop.append(RegistroTop(cols[0],cols[4],cols[4]))
+                print(dataTop)
+
+            data= pd.DataFrame.from_records([s.to_dict() for s in data])
+            data.LocationID=data.LocationID.astype('int64')            
+            data=pd.merge(zonas,data,how='inner',on='LocationID')
+
+            print(data)
+            print(dataTop)
+
+            dataTop= pd.DataFrame.from_records([s.to_dict() for s in dataTop])
+            dataTop.LocationID=dataTop.LocationID.astype('int64')            
+            dataTop=pd.merge(zonas,dataTop,how='inner',on='LocationID')
+
+            
+            context={'form': form,'data':data, 'datatop':dataTop } 
+            return render(request, 'lab/rf3.html', context)
+
+    else:
+        form=RF3Form()
+
+    return render(request, 'lab/rf3.html', {'form': form,'resultado':resultado})
+
+class RegistroTop:
+    def __init__(self, LocationID, mes, cantidad):
+        self.LocationID = LocationID
+        self.mes = mes
+        self.cantidad = cantidad
+
+    def to_dict(self):
+        return {
+            'LocationID':self.LocationID,
+            'mes':self.mes,
+            'cantidad':self.cantidad
+        }
 
 class Registro:
     def __init__(self, LocationID, dia, hora, cantidad, tipo):
