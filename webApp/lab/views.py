@@ -219,7 +219,7 @@ def rf3(request):
                 if (len(linea)==0 or len(linea)==2):
                     continue
                 cols=linea.split("\t")
-                print("linea: "+linea+"->")
+                #print("linea: "+linea+"->")
                 print(cols)
                 print(len(cols))
                 if ( len(cols) <= 2 ):
@@ -227,7 +227,7 @@ def rf3(request):
                 if( len(cols) == 5 ):
                     data.append(RegistroTop(cols[0],cols[2],cols[4]))
                 if( len(cols) == 2 ):
-                    dataTop.append(RegistroTop(cols[0],cols[4],cols[4]))
+                    dataTop.append(RegistroTop(cols[0],cols[1],cols[1]))
                 print(dataTop)
 
             data= pd.DataFrame.from_records([s.to_dict() for s in data])
