@@ -125,14 +125,15 @@ def rf1(request):
 
             ssh_client=paramiko.SSHClient()
             ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-            ssh_client.connect(hostname="bigdata-cluster1-ambari.virtual.uniandes.edu.co",username="bigdata10",password="cVCGoui239m")
+            #ssh_client.connect(hostname="bigdata-cluster1-ambari.virtual.uniandes.edu.co",username="bigdata10",password="cVCGoui239m")
+            ssh_client.connect(hostname="192.168.0.16",username="maria_dev",password="maria_dev",port=2222)
             stdin,stdout,stderr=ssh_client.exec_command(command)
           
             for line in iter(lambda: stdout.readline(2048), ""):
                 output+="\n"+line
             print("err")
 
-            print(stderr)
+            printOut(stderr)
 
             print ("RTA____:\n"+output)
 
@@ -159,6 +160,9 @@ def rf1(request):
                 data.append(Registro(cols[0],cols[1],cols[2],cols[3],cols[4]))
 
             data= pd.DataFrame.from_records([s.to_dict() for s in data])
+            print('_______________')
+            print (data.head())
+            print (data.dtypes)
             data.LocationID=data.LocationID.astype('int64')            
             data=pd.merge(zonas,data,how='inner',on='LocationID')
             print (data.head())
