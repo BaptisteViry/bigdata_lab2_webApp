@@ -1,0 +1,63 @@
+{% load crispy_forms_tags %}
+
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+    crossorigin="anonymous">
+<h5 class="display-4">Pregunta RF3</h5>
+
+
+<div class="container">
+
+<form action="/lab/rf3/" method="POST">
+    {% csrf_token %}
+    {{ form | crispy }}
+    <input type="submit" value="Enviar">
+    
+    </form>
+
+</div>
+
+<div class="container">
+        <h5 class="display-4">Discriminados por Mes</h5>
+        <table class="table table-striped">
+            <thead><tr>
+                <th>Lugar</th>
+                <th>Nombre</th>
+                <th>Cantidad</th>
+                </tr>
+            </thead>
+            <tbody>
+    
+            {% for index, row in datatop.iterrows %}
+            <tr>
+            <td>{{ row.LocationID }}</td> 
+                <td>{{ row.Zone }}</td>  
+                <td>{{ row.cantidad  }}</td>  
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table> 
+    <h5 class="display-4">Discriminados por Mes</h5>
+    <table class="table table-striped">
+        <thead><tr>
+            <th>Lugar</th>
+	        <th>Nombre</th>
+            <th>Mes</th>
+            <th>Cantidad</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        {% for index, row in data.iterrows %}
+        <tr>
+	    <td>{{ row.LocationID }}</td> 
+            <td>{{ row.Zone }}</td>   
+            <td>{{ row.mes }}</td>
+            <td>{{ row.cantidad  }}</td>  
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+<a class="btn btn-secondary m-3" href="/lab">Back</a>
