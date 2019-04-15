@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ["172.24.101.46","127.0.0.1"]
 # Application definition
 
 INSTALLED_APPS = [
+    'taller2',
     'lab',
     'django.contrib.admin',
     'django.contrib.auth',

@@ -1,0 +1,106 @@
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+    integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+<head>
+    <style>
+        ul {
+            margin-top: 50px;
+            list-style-type: none;
+        }
+
+        li {
+            float: left;
+        }
+
+        ul li a {
+            text-decoration: none;
+            line-height: 2.3em;
+        }
+
+        ul li div.size1 {
+            color: #666;
+            padding: 2px;
+            font-size: 1rem
+        }
+
+
+
+        ul li div.size2 {
+            color: #912600;
+            padding: 12px;
+            font-size: 1.3rem
+        }
+
+
+
+        ul li div.size3 {
+            color: #877900;
+            padding: 18px;
+            font-size: 1.5rem
+        }
+
+
+        ul li div.size4 {
+            color: #1d6c01;
+            padding: 8px;
+            font-size: 2rem
+        }
+
+
+        ul li div.size5 {
+            color: #004e6b;
+            padding: 6px;
+            font-size: 2.5rem
+        }
+
+        ul li div.size6 {
+            color: #430069;
+            padding: 24px;
+            font-size: 3rem
+        }
+
+
+        ul li div.size7 {
+            color: #2a6900;
+            padding: 24px;
+            font-size: 3.5rem
+        }
+
+
+        ul li div.size8 {
+            color: #ff0000;
+            padding: 24px;
+            font-size: 4rem
+        }
+
+
+        ul li div.size9 {
+            color: #032cb3;
+            padding: 24px;
+            font-size: 4.5rem
+        }
+
+
+
+        ul li div.size10 {
+            color: #010002;
+            padding: 24px;
+            font-size: 6rem
+        }
+    </style>
+</head>
+
+<body>
+    <h3>Tag cloud de los hashtags mas usados en la coleccion Venezuela del dataset</h3>
+
+    <a class="btn btn-secondary m-3" href="/taller2">Back</a>
+    <ul>
+        {% for t in hashtags %}
+
+        <li>
+            <div href="#" class="size{{ t.rank }}"> {{ t.hashtag }} <p class="font-size:2rem">( {{ t.count }} )</p>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
