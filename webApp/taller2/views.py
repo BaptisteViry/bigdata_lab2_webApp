@@ -5,10 +5,10 @@ from pymongo import MongoClient
 
 import json, random
 
-#client = MongoClient('bigdata-mongodb-04.virtual.uniandes.edu.co', 8087)
-client = MongoClient('localhost', 27017)
+client = MongoClient('bigdata-mongodb-04.virtual.uniandes.edu.co', 8087)
+#client = MongoClient('localhost', 27017)
 db = client.Grupo10
-collectionVenezuela = db.Venezuela_1
+collectionVenezuela = db.venezuela_1
 collectionMinga = db.minga_1
 collectionJep = db.jep_1
 
@@ -26,11 +26,27 @@ def presentacionDB(request):
     return render(request, "taller2/presentacionDB.html", context)
 
 def charts(request):
-    resultado=collectionMinga.aggregate([{"$group":{"_id":"$polaridad","count":{"$sum":1}}}])
-    insulto=-1
-    negativo=-1
-    neutro=-1
-    positivo=-1
+    ctxJep=getPolaridad("jep")
+    ctxMinga=getPolaridad("minga")
+    ctxVenezuela=getPolaridad("venezuela")
+
+    #context = {'dataPolarity': dataPolarity}
+    context = {'jep': ctxJep,'minga':ctxMinga,'venezuela':ctxVenezuela}
+    print (context)
+    return render(request, "taller2/charts.html", context)
+
+def getPolaridad(coleccion):
+    if (coleccion=="jep"):
+        col=collectionJep
+    elif(coleccion=="minga"):
+        col=collectionMinga
+    elif(coleccion=="venezuela"):
+        col=collectionVenezuela
+    resultado=col.aggregate([{"$group":{"_id":"$polaridad","count":{"$sum":1}}}])
+    insulto=0
+    negativo=0
+    neutro=0
+    positivo=0
     for r in resultado:        
         print(r)
         if (r.get("_id")=="Insulto"):
@@ -43,9 +59,7 @@ def charts(request):
             positivo=r.get("count")
         
     dataPolarity = { 'Positivo':positivo, 'Neutro':neutro, 'Negativo':negativo, 'Insulto':insulto }
-
-    context = {'dataPolarity': dataPolarity}
-    return render(request, "taller2/charts.html", context)
+    return dataPolarity
 
 def hashtagWordCloud(request):
     #groupBy hashtags
