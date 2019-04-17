@@ -30,12 +30,60 @@
                 <a class="btn btn-primary" href="rf3/">RF3</a>        
         </div>
         <div class="tab-pane fade" id="taller2" role="tabpanel" aria-labelledby="taller2-tab">
-          <a class="btn btn-primary" href="taller2/presentacionDB/">Presentacion DB</a>
-          <a class="btn btn-primary" href="taller2/charts/">Charts</a>
-          <a class="btn btn-primary" href="taller2/hashtagWordCloud/">Word Cloud</a>
+          <div class="container">
+              <div class="row">
+                  <div class="col">
+                      <h4>Acceso</h4>
+                  </div>
+                  <div class="col">
+                    <h4>Descripción</h4>
+                    </div>
+                </div>
+            <div class="row">
+              <div class="col">
+                  <a class="btn btn-primary" href="taller2/presentacionDB/">Presentacion DB</a>
+              </div>
+              <div class="col">
+                Presentación de la base de datos: Sus colecciones y dimensiones.
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                  <a class="btn btn-primary" href="taller2/charts/">Polaridad</a>
+              </div>
+              <div class="col">
+                  Muestra la polaridad por cada uno de los temas.
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                  <a class="btn btn-primary" href="taller2/hashtagWordCloud/">Word Cloud</a>
+                </div>
+                <div class="col">
+                  Muestra una Nube de hashtags
+                  </div>
+              </div>
+         
+         
+        </div>
         </div>
         <div class="tab-pane fade" id="taller3" role="tabpanel" aria-labelledby="taller3-tab">dddd</div>
       </div>
 
+<script>
+  $('#myTab a').on('click', function (e) {
+  e.preventDefault()
+  $(this).tab('show')
+});
+// Javascript to enable link to tab
+var url = document.location.toString();
+if (url.match('#')) {
+    $('.nav-tabs a[href="#' + url.split('#')[1] + '"]').tab('show');
+} 
 
+// Change hash for page-reload
+$('.nav-tabs a').on('shown.bs.tab', function (e) {
+    window.location.hash = e.target.hash;
+})
+</script>
 {% endblock %}

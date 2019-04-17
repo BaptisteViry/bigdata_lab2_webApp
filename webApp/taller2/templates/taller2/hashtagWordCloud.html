@@ -93,14 +93,25 @@
 <body>
     <h3>Tag cloud de los hashtags mas usados en la coleccion Venezuela del dataset</h3>
 
-    <a class="btn btn-secondary m-3" href="/taller2">Back</a>
-    <ul>
-        {% for t in hashtags %}
-
-        <li>
-            <div href="#" class="size{{ t.rank }}"> {{ t.hashtag }} <p class="font-size:2rem">( {{ t.count }} )</p>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                    <ul>
+                            {% for t in hashtags %}
+                
+                            <li>
+                                <div href="#" class="size{{ t.rank }}"> {{ t.hashtag }} <p class="font-size:2rem">( {{ t.count }} )</p>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
             </div>
-        </li>
-        {% endfor %}
-    </ul>
+
+        </div>
+        
+    </div>
+    <div>
+        <a class="btn btn-secondary m-3" href="/#taller2">Back</a>
+    </div>
+    
 </body>
