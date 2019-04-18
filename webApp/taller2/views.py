@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from pymongo import MongoClient
 
 import json, random
+from random import randint
 
 client = MongoClient('bigdata-mongodb-04.virtual.uniandes.edu.co', 8087)
 #client = MongoClient('localhost', 27017)
@@ -82,19 +83,19 @@ def getTopTuiteros(request):
     
     topCursor=collectionJep.aggregate([{"$project" : {"user.screen_name" : 1}},{"$group" : {"_id" : "$user.screen_name", "count" : {"$sum" : 1}}},{"$sort" : {"count" : -1}},{"$limit" : 10}])
     for top in topCursor:
-        x = top["_id"],top['count']
+        x = top["_id"],top['count'],'color: #{:06x}'.format(randint(0, 256**3))
         topjep.append(x)
       
 
     topCursor=collectionMinga.aggregate([{"$project" : {"user.screen_name" : 1}},{"$group" : {"_id" : "$user.screen_name", "count" : {"$sum" : 1}}},{"$sort" : {"count" : -1}},{"$limit" : 10}])
     for top in topCursor:
-        x = top["_id"],top['count']
+        x = top["_id"],top['count'],'color: #{:06x}'.format(randint(0, 256**3))
         topminga.append(x)
       
 
     topCursor=collectionVenezuela.aggregate([{"$project" : {"user.screen_name" : 1}},{"$group" : {"_id" : "$user.screen_name", "count" : {"$sum" : 1}}},{"$sort" : {"count" : -1}},{"$limit" : 10}])
     for top in topCursor:
-        x =top["_id"],top['count']
+        x =top["_id"],top['count'],'color: #{:06x}'.format(randint(0, 256**3))
         topvenezuela.append(x)
        
 
