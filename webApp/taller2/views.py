@@ -73,7 +73,33 @@ def hashtagWordCloud(request):
 
     random.shuffle(hashtagsArray)
     print(hashtagsArray)
-
-
     context = { "hashtags": hashtagsArray}
     return render(request, "taller2/hashtagWordCloud.html", context)
+def getTopTuiteros(request):
+    topjep=[]
+    topminga=[]
+    topvenezuela=[]
+    
+    topCursor=collectionJep.aggregate([{"$project" : {"user.screen_name" : 1}},{"$group" : {"_id" : "$user.screen_name", "count" : {"$sum" : 1}}},{"$sort" : {"count" : -1}},{"$limit" : 10}])
+    for top in topCursor:
+        x = top["_id"],top['count']
+        topjep.append(x)
+      
+
+    topCursor=collectionMinga.aggregate([{"$project" : {"user.screen_name" : 1}},{"$group" : {"_id" : "$user.screen_name", "count" : {"$sum" : 1}}},{"$sort" : {"count" : -1}},{"$limit" : 10}])
+    for top in topCursor:
+        x = top["_id"],top['count']
+        topminga.append(x)
+      
+
+    topCursor=collectionVenezuela.aggregate([{"$project" : {"user.screen_name" : 1}},{"$group" : {"_id" : "$user.screen_name", "count" : {"$sum" : 1}}},{"$sort" : {"count" : -1}},{"$limit" : 10}])
+    for top in topCursor:
+        x =top["_id"],top['count']
+        topvenezuela.append(x)
+       
+
+    
+    context = { "jep": json.dumps(topjep),"minga":json.dumps(topminga),"venezuela":json.dumps(topvenezuela)}
+    print (context)
+    return render(request,"taller2/toptuiteros.html",context)
+    

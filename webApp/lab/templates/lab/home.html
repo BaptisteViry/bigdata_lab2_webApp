@@ -4,72 +4,85 @@
 {% block content %}
 
 <ul class="nav nav-tabs" id="myTab" role="tablist">
-        <li class="nav-item">
-          <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Presentación</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" id="taller1-tab" data-toggle="tab" href="#taller1" role="tab" aria-controls="taller1" aria-selected="false">Taller 1</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" id="taller2-tab" data-toggle="tab" href="#taller2" role="tab" aria-controls="taller2" aria-selected="false">Taller 2</a>
-        </li>
-          <li class="nav-item">
-          <a class="nav-link" id="taller3-tab" data-toggle="tab" href="#taller3" role="tab" aria-controls="taller3" aria-selected="false">Taller 3</a>
-        </li>
-      </ul>
-      <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                <h1 class="display-1"> Big Data</h1>
-            <h1>Grupo 10</h1>
-            <h1>Baptiste Bruno, Mauricio Rendón, Pedro Rozo</h1>
-            <h2>{bm.viry, ma.rendon, pedro.rozo}@uniandes.edu.co</h2>
-        </div>
-        <div class="tab-pane fade" id="taller1" role="tabpanel" aria-labelledby="taller1-tab">
-                <a class="btn btn-primary" href="rf1/">RF1</a>
-                <a class="btn btn-primary" href="rf2/">RF2</a>
-                <a class="btn btn-primary" href="rf3/">RF3</a>        
-        </div>
-        <div class="tab-pane fade" id="taller2" role="tabpanel" aria-labelledby="taller2-tab">
-          <div class="container">
-              <div class="row">
-                  <div class="col">
-                      <h4>Acceso</h4>
-                  </div>
-                  <div class="col">
-                    <h4>Descripción</h4>
-                    </div>
-                </div>
-            <div class="row">
-              <div class="col">
-                  <a class="btn btn-primary" href="taller2/presentacionDB/">Presentacion DB</a>
-              </div>
-              <div class="col">
-                Presentación de la base de datos: Sus colecciones y dimensiones.
-              </div>
+  <li class="nav-item">
+    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Presentación</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="taller1-tab" data-toggle="tab" href="#taller1" role="tab" aria-controls="taller1" aria-selected="false">Taller 1</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="taller2-tab" data-toggle="tab" href="#taller2" role="tab" aria-controls="taller2" aria-selected="false">Taller 2</a>
+  </li>
+    <li class="nav-item">
+    <a class="nav-link" id="taller3-tab" data-toggle="tab" href="#taller3" role="tab" aria-controls="taller3" aria-selected="false">Taller 3</a>
+  </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+  <!--Portada-->
+  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+      <h1 class="display-1"> Big Data</h1>
+      <h1>Grupo 10</h1>
+      <h1>Baptiste Bruno, Mauricio Rendón, Pedro Rozo</h1>
+      <h2>{bm.viry, ma.rendon, pedro.rozo}@uniandes.edu.co</h2>
+  </div>
+  <!--Taller 1-->
+  <div class="tab-pane fade" id="taller1" role="tabpanel" aria-labelledby="taller1-tab">
+          <a class="btn btn-primary" href="rf1/">RF1</a>
+          <a class="btn btn-primary" href="rf2/">RF2</a>
+          <a class="btn btn-primary" href="rf3/">RF3</a>        
+  </div>
+  <!--Taller 2-->
+  <div class="tab-pane fade" id="taller2" role="tabpanel" aria-labelledby="taller2-tab">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h4>Acceso</h4>
             </div>
-            <div class="row">
-              <div class="col">
-                  <a class="btn btn-primary" href="taller2/charts/">Polaridad</a>
+            <div class="col">
+              <h4>Descripción</h4>
               </div>
-              <div class="col">
-                  Muestra la polaridad por cada uno de los temas.
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                  <a class="btn btn-primary" href="taller2/hashtagWordCloud/">Word Cloud</a>
-                </div>
-                <div class="col">
-                  Muestra una Nube de hashtags
-                  </div>
-              </div>
-         
-         
+          </div>
+      <div class="row">
+        <div class="col">
+            <a class="btn btn-primary" href="taller2/presentacionDB/">Presentacion DB</a>
         </div>
+        <div class="col">
+          Presentación de la base de datos: Sus colecciones y dimensiones.
         </div>
-        <div class="tab-pane fade" id="taller3" role="tabpanel" aria-labelledby="taller3-tab">dddd</div>
       </div>
-
+      <div class="row">
+        <div class="col">
+            <a class="btn btn-primary" href="taller2/charts/">Polaridad</a>
+        </div>
+        <div class="col">
+            Muestra la polaridad por cada uno de los temas.
+          </div>
+      </div>
+      <div class="row">
+          <div class="col">
+            <a class="btn btn-primary" href="taller2/hashtagWordCloud/">Word Cloud</a>
+          </div>
+          <div class="col">
+            Muestra una Nube de hashtags
+          </div>
+      </div> 
+      <div class="row">
+          <div class="col">
+            <h4 class="text-center">Consultas de Negocio</h4>
+          </div>          
+      </div>
+      <div class="row">
+          <div class="col">
+            <h4><a class="btn btn-primary" href="taller2/toptuiteros/">Top Twitteros</a></h4>
+          </div> 
+          <div class="col">
+              Muestra las cuentas que más publicaron tweets por tema
+            </div>         
+      </div>            
+    </div>
+  </div>
+  <div class="tab-pane fade" id="taller3" role="tabpanel" aria-labelledby="taller3-tab">dddd</div>
+</div>
 <script>
   $('#myTab a').on('click', function (e) {
   e.preventDefault()

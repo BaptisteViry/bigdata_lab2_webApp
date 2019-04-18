@@ -1,0 +1,47 @@
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+    integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+<html>
+
+<head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', { 'packages': ['bar'] });
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+            var dataJep = new google.visualization.DataTable();
+            dataJep.addColumn('string', 'Usuario');
+            dataJep.addColumn('number', 'Cantidad');
+
+            var djangoData=JSON.parse('{{ jep|safe }}');
+            dataJep.addRows(djangoData)
+            //var data = google.visualization.arrayToDataTable(djangoData);
+
+           
+            var options = {
+                chart: {
+                    title: 'Tweets por usuario',
+                    subtitle: 'El top 10 de usuarios que más tuitean',
+                },
+                bars: 'horizontal'
+            };
+
+            var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
+
+            chart.draw(dataJep, google.charts.Bar.convertOptions(options));
+        }
+    </script>
+</head>
+
+<body>
+    <h3>Top de los usuarios</h3>
+    <p>Este es el top de los usuarios que más tuitean.</p>
+
+    <div class=m-3>
+        <div id="columnchart_material" style="width: 600px; height: 400px;"></div>
+    </div>
+    <a class="btn btn-secondary m-3" href="/#taller2">Back</a>
+</body>
+
+</html>
