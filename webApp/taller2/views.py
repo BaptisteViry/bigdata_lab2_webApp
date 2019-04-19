@@ -6,8 +6,8 @@ from pymongo import MongoClient
 import json, random
 from random import randint
 
-#client = MongoClient('bigdata-mongodb-04.virtual.uniandes.edu.co', 8087)
-client = MongoClient('localhost', 27017)
+client = MongoClient('bigdata-mongodb-04.virtual.uniandes.edu.co', 8087)
+#client = MongoClient('localhost', 27017)
 db = client.Grupo10
 collectionVenezuela = db.venezuela_1
 collectionMinga = db.minga_1
