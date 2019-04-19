@@ -103,4 +103,29 @@ def getTopTuiteros(request):
     context = { "jep": json.dumps(topjep),"minga":json.dumps(topminga),"venezuela":json.dumps(topvenezuela)}
     print (context)
     return render(request,"taller2/toptuiteros.html",context)
+
+def getPalabrasClave(request):
+    '''Metodo para extraer las palabras clave'''
+    topjep=[]
+    topminga=[]
+    topvenezuela=[]
+
+    topCursor=collectionJep.aggregate([{"$project": {"words": { "$split": ["$full_text_sw", " "] }}},{"$unwind": {"path": "$words"}},{"$group": {"_id": "$words","count": { "$sum": 1 }}},{"$sort":{"count":-1}},{"$limit":10}])
+    for top in topCursor:
+        x = top["_id"],top['count'],'color: #{:06x}'.format(randint(0, 256**3))
+        topjep.append(x)
+    
+    topCursor=collectionMinga.aggregate([{"$project": {"words": { "$split": ["$full_text_sw", " "] }}},{"$unwind": {"path": "$words"}},{"$group": {"_id": "$words","count": { "$sum": 1 }}},{"$sort":{"count":-1}},{"$limit":10}])
+    for top in topCursor:
+        x = top["_id"],top['count'],'color: #{:06x}'.format(randint(0, 256**3))
+        topminga.append(x)
+
+    topCursor=collectionVenezuela.aggregate([{"$project": {"words": { "$split": ["$full_text_sw", " "] }}},{"$unwind": {"path": "$words"}},{"$group": {"_id": "$words","count": { "$sum": 1 }}},{"$sort":{"count":-1}},{"$limit":10}])
+    for top in topCursor:
+        x = top["_id"],top['count'],'color: #{:06x}'.format(randint(0, 256**3))
+        topvenezuela.append(x)
+    
+    context = { "jep": json.dumps(topjep),"minga":json.dumps(topminga),"venezuela":json.dumps(topvenezuela)}
+    print (context)
+    return render(request,"taller2/palabrasclave.html",context)
     

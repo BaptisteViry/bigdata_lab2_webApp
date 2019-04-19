@@ -1,0 +1,120 @@
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+    integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+<html>
+
+<head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', { 'packages': ['corechart','bar'] });
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+            var dataJep = new google.visualization.DataTable();
+            dataJep.addColumn('string', 'Usuario');
+            dataJep.addColumn('number', 'Cantidad');            
+            dataJep.addColumn({type:'string',role:'style'}); 
+
+            var djangoData=JSON.parse('{{ jep|safe }}');
+            dataJep.addRows(djangoData)            
+
+           
+            var options = {
+                title: 'Palabras clave dataset JEP',
+                bars: 'horizontal',
+                legend: {position: 'none'},
+                hAxis:{
+                    title:'Conteo'
+                },
+                vAxis:{
+                    title:'Palabras'
+                }
+
+            };
+
+            var chart = new google.visualization.BarChart(document.getElementById('div_jep'));
+
+            chart.draw(dataJep, google.charts.Bar.convertOptions(options));
+
+
+            var dataMinga = new google.visualization.DataTable();
+            dataMinga.addColumn('string', 'Usuario');
+            dataMinga.addColumn('number', 'Cantidad');
+            dataMinga.addColumn({type:'string',role:'style'}); 
+            
+
+            var djangoData=JSON.parse('{{ minga|safe }}');
+            dataMinga.addRows(djangoData)            
+
+           
+            var options = {
+                title: 'Palabras clave dataset Minga',
+                bars: 'horizontal',
+                legend: {position: 'none'},
+                hAxis:{
+                    title:'Conteo'
+                },
+                vAxis:{
+                    title:'Palabras'
+                }
+            };
+
+            var chart = new google.visualization.BarChart(document.getElementById('div_minga'));
+
+            chart.draw(dataMinga, google.charts.Bar.convertOptions(options));
+
+
+            var dataVenezuela = new google.visualization.DataTable();
+            dataVenezuela.addColumn('string', 'Usuario');
+            dataVenezuela.addColumn('number', 'Cantidad');
+            dataVenezuela.addColumn({type:'string',role:'style'}); 
+
+            var djangoData=JSON.parse('{{ venezuela|safe }}');
+            dataVenezuela.addRows(djangoData)            
+
+           
+            var options = {                
+                title: 'Palabras clave dataset Venezuela',
+                bars: 'horizontal',
+                legend: {position: 'none'},
+                hAxis:{
+                    title:'Conteo'
+                },
+                vAxis:{
+                    title:'Palabras'
+                }
+            };
+
+            var chart = new google.visualization.BarChart(document.getElementById('div_venezuela'));
+
+            chart.draw(dataVenezuela, google.charts.Bar.convertOptions(options));
+        }
+    </script>
+</head>
+
+<body>
+    <h3>Palabras Destacadas</h3>
+    <p>Palabras más usadas en cada uno de los datasets</p>
+
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div id="div_jep" style="height: 400px;"></div>
+            </div>
+            <div class="col">
+                <div id="div_minga" style="height: 400px;"></div>
+            </div>
+        </div>
+        <div class="row">
+                <div class="col">
+                    <div id="div_venezuela" style="height: 400px;"></div>
+                </div>
+                <div class="col">
+    
+                </div>
+            </div>        
+    </div>
+    <a class="btn btn-secondary m-3" href="/#taller2">Back</a>
+</body>
+
+</html>

@@ -8,4 +8,5 @@ urlpatterns = [
     path('charts/', views.charts, name='charts'),
     path('hashtagWordCloud/', views.hashtagWordCloud, name='hashtagWordCloud'),
     path('toptuiteros/',views.getTopTuiteros,name='toptuiteros'),
+    path('palabrasclave/',views.getPalabrasClave,name='palabrasclave')
 ]
