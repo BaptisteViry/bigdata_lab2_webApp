@@ -8,5 +8,6 @@ urlpatterns = [
     path('charts/', views.charts, name='charts'),
     path('hashtagWordCloud/', views.hashtagWordCloud, name='hashtagWordCloud'),
     path('toptuiteros/',views.getTopTuiteros,name='toptuiteros'),
-    path('palabrasclave/',views.getPalabrasClave,name='palabrasclave')
+    path('palabrasclave/',views.getPalabrasClave,name='palabrasclave'),
+    path('polaridad/<coleccion>/<screen_name>/',views.getPolaridadCuenta,name='polaridad'),
 ]

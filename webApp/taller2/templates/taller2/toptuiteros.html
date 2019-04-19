@@ -1,13 +1,76 @@
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
-    integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 
 <html>
-
 <head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
-        google.charts.load('current', { 'packages': ['corechart','bar'] });
+        google.charts.load('current', { 'packages': ['corechart','bar','table'] });
         google.charts.setOnLoadCallback(drawChart);
+        google.charts.setOnLoadCallback(drawTables);
+
+        function drawTables(){
+            drawTableJep();
+            drawTableMinga();
+            drawTableVenezuela();
+        }
+
+        function drawTableJep(){
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Usuario');
+            data.addColumn('number', 'Cantidad');            
+            data.addColumn({type:'string',role:'style'}); 
+
+            var djangoData=JSON.parse('{{ jep|safe }}');
+            data.addRows(djangoData)    
+            data.removeColumn(2)
+
+            var format_url = new google.visualization.PatternFormat('<a href="/taller2/polaridad/jep_1/{0}">{0}</a>');
+            format_url.format(data, [0]);
+
+            var table = new google.visualization.Table(document.getElementById('div_jep_table'));            
+            table.draw(data, {showRowNumber: true, width: '100%',allowHtml: true});           
+            
+        }
+
+        function drawTableMinga(){
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Usuario');
+            data.addColumn('number', 'Cantidad');            
+            data.addColumn({type:'string',role:'style'}); 
+
+            var djangoData=JSON.parse('{{ minga|safe }}');
+            data.addRows(djangoData)    
+            data.removeColumn(2)
+
+            var format_url = new google.visualization.PatternFormat('<a href="/taller2/polaridad/minga_1/{0}">{0}</a>');
+            format_url.format(data, [0]);
+
+            var table = new google.visualization.Table(document.getElementById('div_minga_table'));            
+            table.draw(data, {showRowNumber: true, width: '100%',allowHtml: true});           
+            
+        }
+        function drawTableVenezuela(){
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Usuario');
+            data.addColumn('number', 'Cantidad');            
+            data.addColumn({type:'string',role:'style'}); 
+
+            var djangoData=JSON.parse('{{ venezuela|safe }}');
+            data.addRows(djangoData)    
+            data.removeColumn(2)
+
+            var format_url = new google.visualization.PatternFormat('<a href="/taller2/polaridad/venezuela_1/{0}">{0}</a>');
+            format_url.format(data, [0]);
+
+            var table = new google.visualization.Table(document.getElementById('div_venezuela_table'));            
+            table.draw(data, {showRowNumber: true, width: '100%',allowHtml: true});           
+            
+        }
+
 
         function drawChart() {
             var dataJep = new google.visualization.DataTable();
@@ -32,9 +95,11 @@
 
             };
 
-            var chart = new google.visualization.BarChart(document.getElementById('div_jep'));
+            var chart = new google.visualization.BarChart(document.getElementById('div_jep'));            
 
             chart.draw(dataJep, google.charts.Bar.convertOptions(options));
+
+           
 
 
             var dataMinga = new google.visualization.DataTable();
@@ -100,14 +165,65 @@
         <div class="row">
             <div class="col">
                 <div id="div_jep" style="height: 400px;"></div>
+                <div class="accordion" id="accordionJep">
+                    <div class="card">
+                        <div class="card-header" id="headingJep">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseJep" aria-expanded="true" aria-controls="collapseJep">
+                            Polaridad por cuentas
+                            </button>
+                        </h2>
+                        </div>
+                    
+                        <div id="collapseJep" class="collapse hide" aria-labelledby="headingJep" data-parent="#accordionJep">
+                        <div class="card-body">
+                                <div id="div_jep_table"></div>
+                        </div>
+                        </div>
+                    </div>
+                </div>                
             </div>
             <div class="col">
                 <div id="div_minga" style="height: 400px;"></div>
+                <div class="accordion" id="accordionMinga">
+                        <div class="card">
+                            <div class="card-header" id="headingMinga">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseMinga" aria-expanded="true" aria-controls="collapseMinga">
+                                Polaridad por cuentas
+                                </button>
+                            </h2>
+                            </div>
+                        
+                            <div id="collapseMinga" class="collapse hide" aria-labelledby="headingMinga" data-parent="#accordionMinga">
+                            <div class="card-body">
+                                    <div id="div_minga_table"></div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
             </div>
         </div>
         <div class="row">
                 <div class="col">
                     <div id="div_venezuela" style="height: 400px;"></div>
+                    <div class="accordion" id="accordionVenezuela">
+                            <div class="card">
+                                <div class="card-header" id="headingVenezuela">
+                                <h2 class="mb-0">
+                                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseVenezuela" aria-expanded="true" aria-controls="collapseVenezuela">
+                                    Polaridad por cuentas
+                                    </button>
+                                </h2>
+                                </div>
+                            
+                                <div id="collapseVenezuela" class="collapse hide" aria-labelledby="headingVenezuela" data-parent="#accordionVenezuela">
+                                <div class="card-body">
+                                        <div id="div_venezuela_table"></div>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
                 </div>
                 <div class="col">
     

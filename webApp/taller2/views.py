@@ -6,8 +6,8 @@ from pymongo import MongoClient
 import json, random
 from random import randint
 
-client = MongoClient('bigdata-mongodb-04.virtual.uniandes.edu.co', 8087)
-#client = MongoClient('localhost', 27017)
+#client = MongoClient('bigdata-mongodb-04.virtual.uniandes.edu.co', 8087)
+client = MongoClient('localhost', 27017)
 db = client.Grupo10
 collectionVenezuela = db.venezuela_1
 collectionMinga = db.minga_1
@@ -76,7 +76,9 @@ def hashtagWordCloud(request):
     print(hashtagsArray)
     context = { "hashtags": hashtagsArray}
     return render(request, "taller2/hashtagWordCloud.html", context)
+
 def getTopTuiteros(request):
+    """Obtener las cuentas que más tuitean"""
     topjep=[]
     topminga=[]
     topvenezuela=[]
@@ -128,4 +130,41 @@ def getPalabrasClave(request):
     context = { "jep": json.dumps(topjep),"minga":json.dumps(topminga),"venezuela":json.dumps(topvenezuela)}
     print (context)
     return render(request,"taller2/palabrasclave.html",context)
+
+def getPolaridadCuenta(request, coleccion, screen_name):
+    """Obtener la polaridad de una cuenta en una colección"""
+
+    
+    if (coleccion=="jep_1"):
+        miColeccion=collectionJep
+    elif (coleccion=="minga_1"):
+        miColeccion=collectionMinga
+    else :
+        miColeccion=collectionVenezuela
+    curPolaridad=miColeccion.aggregate([{"$match" : {"user.screen_name" : screen_name } },{"$group" : {"_id": "$polaridad","count":{"$sum":1}}}])
+    insulto=0
+    negativo=0
+    neutro=0
+    positivo=0
+    for r in curPolaridad:        
+        print(r)
+        if (r.get("_id")=="Insulto"):
+            insulto=r.get("count")
+        elif (r.get("_id")=="Negativo"):
+            negativo=r.get("count")
+        elif (r.get("_id")=="Neutro"):
+            neutro=r.get("count")
+        elif (r.get("_id")=="Positivo"):
+            positivo=r.get("count")
+        
+    dataPolarity = { 'Positivo':positivo, 'Neutro':neutro, 'Negativo':negativo, 'Insulto':insulto }
+
+  
+    
+    datos={'coleccion':coleccion,'screen_name':screen_name}
+    context={'polaridad':dataPolarity,'datos':datos}
+    print (context)
+    return render(request,"taller2/polaridad.html",context)
+
+
     
