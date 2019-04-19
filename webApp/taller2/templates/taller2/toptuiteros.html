@@ -55,11 +55,20 @@
             data.addRows(djangoData)    
             data.removeColumn(2)
 
+            var view = data.clone();
+
             var format_url = new google.visualization.PatternFormat('<a href="/taller2/polaridad/minga_1/{0}">{0}</a>');
             format_url.format(data, [0]);
 
             var table = new google.visualization.Table(document.getElementById('div_minga_table'));            
-            table.draw(data, {showRowNumber: true, width: '100%',allowHtml: true});           
+            table.draw(data, {showRowNumber: true, width: '100%',allowHtml: true});     
+            
+            
+            var format_url_appoyo = new google.visualization.PatternFormat('<a href="/taller2/apoyocuenta/minga_1/{0}">{0}</a>');
+            format_url_appoyo.format(view, [0]);
+
+            var table_apoyo = new google.visualization.Table(document.getElementById('div_minga_cuenta_table'));            
+            table_apoyo.draw(view, {showRowNumber: true, width: '100%',allowHtml: true});  
             
         }
         function drawTableVenezuela(){
@@ -72,11 +81,19 @@
             data.addRows(djangoData)    
             data.removeColumn(2)
 
+            var view = data.clone();
+
             var format_url = new google.visualization.PatternFormat('<a href="/taller2/polaridad/venezuela_1/{0}">{0}</a>');
             format_url.format(data, [0]);
 
             var table = new google.visualization.Table(document.getElementById('div_venezuela_table'));            
-            table.draw(data, {showRowNumber: true, width: '100%',allowHtml: true});           
+            table.draw(data, {showRowNumber: true, width: '100%',allowHtml: true});      
+            
+            var format_url_appoyo = new google.visualization.PatternFormat('<a href="/taller2/apoyocuenta/venezuela_1/{0}">{0}</a>');
+            format_url_appoyo.format(view, [0]);
+
+            var table_apoyo = new google.visualization.Table(document.getElementById('div_venezuela_cuenta_table'));            
+            table_apoyo.draw(view, {showRowNumber: true, width: '100%',allowHtml: true});  
             
         }
 
@@ -195,45 +212,64 @@
                 </div>
                 <!--Acordión apoyo a la cuenta-->
                 <div class="accordion" id="accordionJepCuenta">
-                        <div class="card">
-                            <div class="card-header" id="headingJepCuenta">
+                    <div class="card">
+                        <div class="card-header" id="headingJepCuenta">
                             <h2 class="mb-0">
                                 <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseJepCuenta" aria-expanded="true" aria-controls="collapseJepCuenta">
                                     Apoyo o rechazo a cuentas de usuario
                                 </button>
                             </h2>
-                            </div>
+                        </div>
                         
-                            <div id="collapseJepCuenta" class="collapse hide" aria-labelledby="headingJepCuenta" data-parent="#accordionJepCuenta">
-                                
-                                <div class="card-body">
-                                        <p>De clic sobre la cuenta de usuario para explorar el apoyo o rechazo a sus tweets.</p>    
-                                        <div id="div_jep_cuenta_table"></div>
-                                </div>
+                        <div id="collapseJepCuenta" class="collapse hide" aria-labelledby="headingJepCuenta" data-parent="#accordionJepCuenta">
+                            
+                            <div class="card-body">
+                                    <p>De clic sobre la cuenta de usuario para explorar el apoyo o rechazo a sus tweets.</p>    
+                                    <div id="div_jep_cuenta_table"></div>
                             </div>
                         </div>
-                    </div>                
+                    </div>
+                </div>
             </div>
             <div class="col">
                 <div id="div_minga" style="height: 400px;"></div>
                 <div class="accordion" id="accordionMinga">
-                        <div class="card">
-                            <div class="card-header" id="headingMinga">
+                    <div class="card">
+                        <div class="card-header" id="headingMinga">
                             <h2 class="mb-0">
                                 <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseMinga" aria-expanded="true" aria-controls="collapseMinga">
                                 Polaridad por cuentas
                                 </button>
                             </h2>
-                            </div>
-                        
-                            <div id="collapseMinga" class="collapse hide" aria-labelledby="headingMinga" data-parent="#accordionMinga">
+                        </div>                    
+                        <div id="collapseMinga" class="collapse hide" aria-labelledby="headingMinga" data-parent="#accordionMinga">
                             <div class="card-body">
                                     <p>De clic sobre la cuenta de usuario para explorar sus cifras de polaridad</p>    
                                     <div id="div_minga_table"></div>
                             </div>
-                            </div>
                         </div>
                     </div>
+                </div>
+                <!--Acordión apoyo a la cuenta-->
+                <div class="accordion" id="accordionMingaCuenta">
+                        <div class="card">
+                            <div class="card-header" id="headingMingaCuenta">
+                                <h2 class="mb-0">
+                                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseMingaCuenta" aria-expanded="true" aria-controls="collapseMingaCuenta">
+                                        Apoyo o rechazo a cuentas de usuario
+                                    </button>
+                                </h2>
+                            </div>
+                            
+                            <div id="collapseMingaCuenta" class="collapse hide" aria-labelledby="headingMingaCuenta" data-parent="#accordionMingaCuenta">
+                                
+                                <div class="card-body">
+                                        <p>De clic sobre la cuenta de usuario para explorar el apoyo o rechazo a sus tweets.</p>    
+                                        <div id="div_minga_cuenta_table"></div>
+                                </div>
+                            </div>
+                        </div>
+                </div>
             </div>
         </div>
         <div class="row">
@@ -257,6 +293,26 @@
                                 </div>
                             </div>
                         </div>
+                        <!--Acordión apoyo a la cuenta-->
+                <div class="accordion" id="accordionVenezuelaCuenta">
+                        <div class="card">
+                            <div class="card-header" id="headingVenezuelaCuenta">
+                                <h2 class="mb-0">
+                                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseVenezuelaCuenta" aria-expanded="true" aria-controls="collapseVenezuelaCuenta">
+                                        Apoyo o rechazo a cuentas de usuario
+                                    </button>
+                                </h2>
+                            </div>
+                            
+                            <div id="collapseVenezuelaCuenta" class="collapse hide" aria-labelledby="headingVenezuelaCuenta" data-parent="#accordionVenezuelaCuenta">
+                                
+                                <div class="card-body">
+                                        <p>De clic sobre la cuenta de usuario para explorar el apoyo o rechazo a sus tweets.</p>    
+                                        <div id="div_venezuela_cuenta_table"></div>
+                                </div>
+                            </div>
+                        </div>
+                </div>
                 </div>
                 <div class="col">
     
