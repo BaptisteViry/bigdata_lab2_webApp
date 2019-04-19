@@ -10,4 +10,5 @@ urlpatterns = [
     path('toptuiteros/',views.getTopTuiteros,name='toptuiteros'),
     path('palabrasclave/',views.getPalabrasClave,name='palabrasclave'),
     path('polaridad/<coleccion>/<screen_name>/',views.getPolaridadCuenta,name='polaridad'),
+    path('apoyo/',views.getApoyoGeneral,name='apoyo'),
 ]

@@ -166,5 +166,40 @@ def getPolaridadCuenta(request, coleccion, screen_name):
     print (context)
     return render(request,"taller2/polaridad.html",context)
 
+def getApoyoGeneral(request):
+    """Consulta la polaridad en las respuesta, por temas"""
+    ctxJep=getApoyo("jep")
+    ctxMinga=getApoyo("minga")
+    ctxVenezuela=getApoyo("venezuela")
 
-    
+    #context = {'dataPolarity': dataPolarity}
+    context = {'jep': ctxJep,'minga':ctxMinga,'venezuela':ctxVenezuela}
+    print("analizando retweets")
+    print (context)
+    return render(request, "taller2/apoyo.html", context)
+
+
+def getApoyo(coleccion):
+    if (coleccion=="jep"):
+        col=collectionJep
+    elif(coleccion=="minga"):
+        col=collectionMinga
+    elif(coleccion=="venezuela"):
+        col=collectionVenezuela
+    resultado=col.aggregate([{"$match":{"in_reply_to_status_id_str" : {"$ne":None} }},{"$group":{"_id":"$polaridad","count":{"$sum":1}}}])
+    insulto=0
+    negativo=0
+    neutro=0
+    positivo=0
+    for r in resultado:                
+        if (r.get("_id")=="Insulto"):
+            insulto=r.get("count")
+        elif (r.get("_id")=="Negativo"):
+            negativo=r.get("count")
+        elif (r.get("_id")=="Neutro"):
+            neutro=r.get("count")
+        elif (r.get("_id")=="Positivo"):
+            positivo=r.get("count")
+        
+    dataPolarity = { 'Positivo':positivo, 'Neutro':neutro, 'Negativo':negativo, 'Insulto':insulto }
+    return dataPolarity    

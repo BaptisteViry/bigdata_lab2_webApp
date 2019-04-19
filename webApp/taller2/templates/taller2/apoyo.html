@@ -1,0 +1,135 @@
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+    crossorigin="anonymous">
+
+<html>
+  <head>
+    <!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+
+      // Load the Visualization API and the corechart package.
+      google.charts.load('current', {'packages':['corechart']});
+
+      // Set a callback to run when the Google Visualization API is loaded.
+      google.charts.setOnLoadCallback(drawChart);
+
+      jepPositive = {{ jep.Positivo }};
+      jepNeutral = {{ jep.Neutro }};
+      jepNegative = {{ jep.Negativo }};
+      jepInsult = {{ jep.Insulto }};
+
+      mingaPositive = {{ minga.Positivo }};
+      mingaNeutral = {{ minga.Neutro }};
+      mingaNegative = {{ minga.Negativo }};
+      mingaInsult = {{ minga.Insulto }};
+
+      venezuelaPositive = {{ venezuela.Positivo }};
+      venezuelaNeutral = {{ venezuela.Neutro }};
+      venezuelaNegative = {{ venezuela.Negativo }};
+      venezuelaInsult = {{ venezuela.Insulto }};
+
+
+
+      // Callback that creates and populates a data table,
+      // instantiates the pie chart, passes in the data and
+      // draws it.
+      function drawChart() {
+
+        // Create the data table.
+        var dataJep = new google.visualization.DataTable();
+        dataJep.addColumn('string', 'Polarity');
+        dataJep.addColumn('number', 'data');
+        dataJep.addRows([
+          ['Positivo', jepPositive],
+          ['Neutro', jepNeutral],
+          ['Negativo', jepNegative],
+          ['Insulto', jepInsult]
+        ]);
+        // Create the data table.
+        var dataMinga = new google.visualization.DataTable();
+        dataMinga.addColumn('string', 'Polarity');
+        dataMinga.addColumn('number', 'data');
+        dataMinga.addRows([
+          ['Positivo', mingaPositive],
+          ['Neutro', mingaNeutral],
+          ['Negativo', mingaNegative],
+          ['Insulto', mingaInsult]
+        ]);
+
+        // Create the data table.
+        var dataVenezuela = new google.visualization.DataTable();
+        dataVenezuela.addColumn('string', 'Polarity');
+        dataVenezuela.addColumn('number', 'data');
+        dataVenezuela.addRows([
+          ['Positivo', venezuelaPositive],
+          ['Neutro', venezuelaNeutral],
+          ['Negativo', venezuelaNegative],
+          ['Insulto', venezuelaInsult]
+        ]);
+
+        // Set chart options
+        var optionsJep = {'title':'Apoyo sobre el tema Jep',
+                       'width':500,
+                       'height':300,           
+                       'pieHole': 0.4,
+                       'colors': [  '#55cd34','#f6bf1e', '#e6693e','#e0440e']
+                      };
+          var optionsMinga = {'title':'Apoyo sobre el tema Minga',
+                       'width':500,
+                       'height':300,           
+                       'pieHole': 0.4,
+                       'colors': [  '#55cd34','#f6bf1e', '#e6693e','#e0440e']
+                      };
+          var optionsVenezuela = {'title':'Apoyo sobre el tema Venezuela',
+                       'width':500,
+                       'height':300,           
+                       'pieHole': 0.4,
+                       'colors': [  '#55cd34','#f6bf1e', '#e6693e','#e0440e']
+                      };
+
+
+        // Instantiate and draw our chart, passing in some options.
+        var chartJep = new google.visualization.PieChart(document.getElementById('chart_jep'));
+        chartJep.draw(dataJep, optionsJep);
+
+        var chartMinga = new google.visualization.PieChart(document.getElementById('chart_minga'));
+        chartMinga.draw(dataMinga, optionsMinga);
+
+        var chartVenezuela = new google.visualization.PieChart(document.getElementById('chart_venezuela'));
+        chartVenezuela.draw(dataVenezuela, optionsVenezuela);
+
+
+
+      }
+    </script>
+  </head>
+
+  <body>
+      <h3>Análisis de apoyo sobre los temas</h3>
+      <p>
+        Las siguientes son gráficas sobre el apoyo o rechazo que se da en los distintos temas
+        analizando los tweets de respuesta en los datasets
+      </p>
+      
+      <div class="container">
+        <div class="row">
+          <div class="col">
+              <div id="chart_jep"></div>
+          </div>
+          <div class="col">
+              <div id="chart_minga"></div>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="col">
+              <div id="chart_venezuela"></div>
+          </div>
+        </div>
+        
+        
+    </div>
+    <a class="btn btn-secondary m-3" href="/#taller2">Back</a>
+  </body>
+
+</html>
