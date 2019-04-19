@@ -1,0 +1,85 @@
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+    crossorigin="anonymous">
+
+<html>
+  <head>
+    <!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+
+      // Load the Visualization API and the corechart package.
+      google.charts.load('current', {'packages':['corechart']});
+
+      // Set a callback to run when the Google Visualization API is loaded.
+      google.charts.setOnLoadCallback(drawChart);
+ 
+      jepPositive = {{ polaridad.Positivo }};
+      jepNeutral = {{ polaridad.Neutro }};
+      jepNegative = {{ polaridad.Negativo }};
+      jepInsult = {{ polaridad.Insulto }};
+ 
+
+     
+
+      
+
+
+      // Callback that creates and populates a data table,
+      // instantiates the pie chart, passes in the data and
+      // draws it.
+      function drawChart() {
+
+        // Create the data table.
+        var dataJep = new google.visualization.DataTable();
+        dataJep.addColumn('string', 'Polarity');
+        dataJep.addColumn('number', 'data');
+        dataJep.addRows([
+          ['Positivo', jepPositive],
+          ['Neutro', jepNeutral],
+          ['Negativo', jepNegative],
+          ['Insulto', jepInsult]
+        ]);
+       
+
+        // Set chart options
+        var optionsJep = {'title':'Polaridad Jep',
+                       'width':500,
+                       'height':300,           
+                       'pieHole': 0.4,
+                       'colors': [  '#55cd34','#f6bf1e', '#e6693e','#e0440e']
+                      };
+        
+
+        // Instantiate and draw our chart, passing in some options.
+        var chartJep = new google.visualization.PieChart(document.getElementById('chart_jep'));
+        chartJep.draw(dataJep, optionsJep);
+      }
+    </script>
+  </head>
+
+  <body>
+      <h3>Apoyo o rechazo del dataset {{datos.coleccion}}</h3>
+      <p>Esta el la polaridad de los tweets de respuesta a la cuenta: {{datos.screen_name}}</p>
+      
+      <div class="container">
+        <div class="row">
+          <div class="col">
+              <div id="chart_jep"></div>
+          </div>
+          <div class="col">
+              <div id="chart_minga"></div>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="col">
+              <div id="chart_venezuela"></div>
+          </div>
+        </div>
+        
+        
+    </div>    
+    <input class="btn btn-secondary m-3"  type=button value="Back" onClick="javascript:history.go(-1);">
+  </body>
+
+</html>

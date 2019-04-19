@@ -27,12 +27,21 @@
             var djangoData=JSON.parse('{{ jep|safe }}');
             data.addRows(djangoData)    
             data.removeColumn(2)
+            
+            var view = data.clone();
 
             var format_url = new google.visualization.PatternFormat('<a href="/taller2/polaridad/jep_1/{0}">{0}</a>');
             format_url.format(data, [0]);
 
             var table = new google.visualization.Table(document.getElementById('div_jep_table'));            
-            table.draw(data, {showRowNumber: true, width: '100%',allowHtml: true});           
+            table.draw(data, {showRowNumber: true, width: '100%',allowHtml: true});  
+            
+            
+            var format_url_appoyo = new google.visualization.PatternFormat('<a href="/taller2/apoyocuenta/jep_1/{0}">{0}</a>');
+            format_url_appoyo.format(view, [0]);
+
+            var table_apoyo = new google.visualization.Table(document.getElementById('div_jep_cuenta_table'));            
+            table_apoyo.draw(view, {showRowNumber: true, width: '100%',allowHtml: true});  
             
         }
 
@@ -176,12 +185,34 @@
                         </div>
                     
                         <div id="collapseJep" class="collapse hide" aria-labelledby="headingJep" data-parent="#accordionJep">
-                        <div class="card-body">
-                                <div id="div_jep_table"></div>
-                        </div>
+                            
+                            <div class="card-body">
+                                    <p>De clic sobre la cuenta de usuario para explorar sus cifras de polaridad</p>    
+                                    <div id="div_jep_table"></div>
+                            </div>
                         </div>
                     </div>
-                </div>                
+                </div>
+                <!--Acordión apoyo a la cuenta-->
+                <div class="accordion" id="accordionJepCuenta">
+                        <div class="card">
+                            <div class="card-header" id="headingJepCuenta">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseJepCuenta" aria-expanded="true" aria-controls="collapseJepCuenta">
+                                    Apoyo o rechazo a cuentas de usuario
+                                </button>
+                            </h2>
+                            </div>
+                        
+                            <div id="collapseJepCuenta" class="collapse hide" aria-labelledby="headingJepCuenta" data-parent="#accordionJepCuenta">
+                                
+                                <div class="card-body">
+                                        <p>De clic sobre la cuenta de usuario para explorar el apoyo o rechazo a sus tweets.</p>    
+                                        <div id="div_jep_cuenta_table"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                
             </div>
             <div class="col">
                 <div id="div_minga" style="height: 400px;"></div>
@@ -197,6 +228,7 @@
                         
                             <div id="collapseMinga" class="collapse hide" aria-labelledby="headingMinga" data-parent="#accordionMinga">
                             <div class="card-body">
+                                    <p>De clic sobre la cuenta de usuario para explorar sus cifras de polaridad</p>    
                                     <div id="div_minga_table"></div>
                             </div>
                             </div>
@@ -219,6 +251,7 @@
                             
                                 <div id="collapseVenezuela" class="collapse hide" aria-labelledby="headingVenezuela" data-parent="#accordionVenezuela">
                                 <div class="card-body">
+                                        <p>De clic sobre la cuenta de usuario para explorar sus cifras de polaridad</p>    
                                         <div id="div_venezuela_table"></div>
                                 </div>
                                 </div>

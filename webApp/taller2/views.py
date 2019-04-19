@@ -17,7 +17,7 @@ def index(request):
     return render(request, "taller2/index.html")
 
 def presentacionDB(request):
-    #first consult
+    """Tamaño de cada colección"""
     countVenezuela = collectionVenezuela.find({}).count()
     countMinga = collectionMinga.find({}).count()
     countJep = collectionJep.find({}).count()
@@ -131,6 +131,38 @@ def getPalabrasClave(request):
     print (context)
     return render(request,"taller2/palabrasclave.html",context)
 
+def getApoyoCuenta(request, coleccion, screen_name):
+    """Obtener apoyo o rechazo a una cuenta"""
+      
+    if (coleccion=="jep_1"):
+        miColeccion=collectionJep
+    elif (coleccion=="minga_1"):
+        miColeccion=collectionMinga
+    else :
+        miColeccion=collectionVenezuela
+    curPolaridad=miColeccion.aggregate([{"$match" : {"in_reply_to_screen_name" : screen_name } },{"$group" : {"_id": "$polaridad","count":{"$sum":1}}}])
+    insulto=0
+    negativo=0
+    neutro=0
+    positivo=0
+    for r in curPolaridad:        
+        print(r)
+        if (r.get("_id")=="Insulto"):
+            insulto=r.get("count")
+        elif (r.get("_id")=="Negativo"):
+            negativo=r.get("count")
+        elif (r.get("_id")=="Neutro"):
+            neutro=r.get("count")
+        elif (r.get("_id")=="Positivo"):
+            positivo=r.get("count")
+        
+    dataPolarity = { 'Positivo':positivo, 'Neutro':neutro, 'Negativo':negativo, 'Insulto':insulto }   
+    datos={'coleccion':coleccion,'screen_name':screen_name}
+    context={'polaridad':dataPolarity,'datos':datos}
+    print (context)
+    return render(request,"taller2/apoyocuenta.html",context)
+
+
 def getPolaridadCuenta(request, coleccion, screen_name):
     """Obtener la polaridad de una cuenta en una colección"""
 
@@ -168,9 +200,9 @@ def getPolaridadCuenta(request, coleccion, screen_name):
 
 def getApoyoGeneral(request):
     """Consulta la polaridad en las respuesta, por temas"""
-    ctxJep=getApoyo("jep")
-    ctxMinga=getApoyo("minga")
-    ctxVenezuela=getApoyo("venezuela")
+    ctxJep=getApoyoTema("jep")
+    ctxMinga=getApoyoTema("minga")
+    ctxVenezuela=getApoyoTema("venezuela")
 
     #context = {'dataPolarity': dataPolarity}
     context = {'jep': ctxJep,'minga':ctxMinga,'venezuela':ctxVenezuela}
@@ -179,7 +211,7 @@ def getApoyoGeneral(request):
     return render(request, "taller2/apoyo.html", context)
 
 
-def getApoyo(coleccion):
+def getApoyoTema(coleccion):
     if (coleccion=="jep"):
         col=collectionJep
     elif(coleccion=="minga"):
