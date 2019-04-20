@@ -13,4 +13,5 @@ urlpatterns = [
     path('apoyo/',views.getApoyoGeneral,name='apoyo'),
     path('apoyocuenta/<coleccion>/<screen_name>/',views.getApoyoCuenta,name='apoyocuenta'),
     path('toplugares/',views.getTopLugares,name='toplugares'),
+    path('lugares/',views.getLugares,name='lugares')
 ]

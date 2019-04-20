@@ -108,13 +108,49 @@ def getTopTuiteros(request):
     print (context)
     return render(request,"taller2/toptuiteros.html",context)
 
+def getLugares(request):
+    """Obtener todos los lugares"""
+    topjep=[]
+    topminga=[]
+    topvenezuela=[]
+    
+    topCursor=collectionJep.aggregate([{"$match":{"user.location":{"$ne":""}}},{"$project" : {"user.location" : 1}},{"$group" : {"_id" : "$user.location", "count" : {"$sum" : 1}}},{"$sort" : {"count" : -1}},{"$limit" : 30}])
+    for top in topCursor:
+        pais=top["_id"].replace("'","").split(', ')
+        print(pais)
+        p=""
+        if (len(pais)==2):
+            p=pais[1]
+        else:
+            p=pais[0]
+        x = p,top['count'],'color: #{:06x}'.format(randint(0, 256**3))
+        topjep.append(x)
+      
+
+    topCursor=collectionMinga.aggregate([{"$project" : {"user.location" : 1}},{"$group" : {"_id" : "$user.location", "count" : {"$sum" : 1}}},{"$sort" : {"count" : -1}},{"$limit" : 10}])
+    for top in topCursor:
+        x = top["_id"],top['count'],'color: #{:06x}'.format(randint(0, 256**3))
+        topminga.append(x)
+      
+
+    topCursor=collectionVenezuela.aggregate([{"$project" : {"user.location" : 1}},{"$group" : {"_id" : "$user.location", "count" : {"$sum" : 1}}},{"$sort" : {"count" : -1}},{"$limit" : 10}])
+    for top in topCursor:
+        x =top["_id"],top['count'],'color: #{:06x}'.format(randint(0, 256**3))
+        topvenezuela.append(x)
+       
+
+    
+    context = { "jep": json.dumps(topjep),"minga":json.dumps(topminga),"venezuela":json.dumps(topvenezuela)}
+    print (context)
+    return render(request,"taller2/lugares.html",context)
+
 def getTopLugares(request):
     """Obtener las cuentas que más tuitean"""
     topjep=[]
     topminga=[]
     topvenezuela=[]
     
-    topCursor=collectionJep.aggregate([{"$project" : {"user.location" : 1}},{"$group" : {"_id" : "$user.location", "count" : {"$sum" : 1}}},{"$sort" : {"count" : -1}},{"$limit" : 10}])
+    topCursor=collectionJep.aggregate([{"$match":{"user.location":{"$ne":""}}},{"$project" : {"user.location" : 1}},{"$group" : {"_id" : "$user.location", "count" : {"$sum" : 1}}},{"$sort" : {"count" : -1}},{"$limit" : 10}])
     for top in topCursor:
         x = top["_id"],top['count'],'color: #{:06x}'.format(randint(0, 256**3))
         topjep.append(x)
