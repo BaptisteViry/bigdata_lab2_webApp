@@ -1,0 +1,126 @@
+
+<html>
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', { 'packages': ['corechart','bar','table'] });
+        google.charts.setOnLoadCallback(drawChart);
+        
+        function drawChart() {
+            var dataJep = new google.visualization.DataTable();
+            dataJep.addColumn('string', 'Usuario');
+            dataJep.addColumn('number', 'Cantidad');            
+            dataJep.addColumn({type:'string',role:'style'}); 
+
+            var djangoData=JSON.parse('{{ jep|safe }}');
+            dataJep.addRows(djangoData)            
+
+           
+            var options = {
+                title: 'Tweets por usuario dataset JEP',
+                bars: 'horizontal',
+                legend: {position: 'none'},
+                hAxis:{
+                    title:'Cantidad de Tweets'
+                },
+                vAxis:{
+                    title:'Cuentas'
+                }
+
+            };
+
+            var chart = new google.visualization.BarChart(document.getElementById('div_jep'));            
+
+            chart.draw(dataJep, google.charts.Bar.convertOptions(options));
+
+           
+
+
+            var dataMinga = new google.visualization.DataTable();
+            dataMinga.addColumn('string', 'Usuario');
+            dataMinga.addColumn('number', 'Cantidad');
+            dataMinga.addColumn({type:'string',role:'style'}); 
+            
+
+            var djangoData=JSON.parse('{{ minga|safe }}');
+            dataMinga.addRows(djangoData)            
+
+           
+            var options = {
+                title: 'Tweets por usuario dataset Minga',
+                bars: 'horizontal',
+                legend: {position: 'none'},
+                hAxis:{
+                    title:'Cantidad de Tweets'
+                },
+                vAxis:{
+                    title:'Cuentas'
+                }
+            };
+
+            var chart = new google.visualization.BarChart(document.getElementById('div_minga'));
+
+            chart.draw(dataMinga, google.charts.Bar.convertOptions(options));
+
+
+            var dataVenezuela = new google.visualization.DataTable();
+            dataVenezuela.addColumn('string', 'Usuario');
+            dataVenezuela.addColumn('number', 'Cantidad');
+            dataVenezuela.addColumn({type:'string',role:'style'}); 
+
+            var djangoData=JSON.parse('{{ venezuela|safe }}');
+            dataVenezuela.addRows(djangoData)            
+
+           
+            var options = {                
+                title: 'Tweets por usuario dataset Venezuela',
+                bars: 'horizontal',
+                legend: {position: 'none'},
+                hAxis:{
+                    title:'Cantidad de Tweets'
+                },
+                vAxis:{
+                    title:'Cuentas'
+                }
+            };
+
+            var chart = new google.visualization.BarChart(document.getElementById('div_venezuela'));
+
+            chart.draw(dataVenezuela, google.charts.Bar.convertOptions(options));
+        }
+    </script>
+</head>
+
+<body>
+    <h3>Top de ubicación de los usuarios</h3>
+    <p>Este es el top de las ubicaciones de los usuarios.</p>
+
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div id="div_jep" style="height: 400px;"></div>                
+            </div>
+            <div class="col">
+                <div id="div_minga" style="height: 400px;"></div>
+                
+            </div>
+        </div>
+        <div class="row">
+                <div class="col">
+                    <div id="div_venezuela" style="height: 400px;"></div>
+                    
+                </div>
+                <div class="col">
+    
+                </div>
+            </div>        
+    </div>
+    <a class="btn btn-secondary m-3" href="/#taller2">Back</a>
+</body>
+
+</html>

@@ -27,6 +27,7 @@ def presentacionDB(request):
     return render(request, "taller2/presentacionDB.html", context)
 
 def charts(request):
+    """Obtiene la polaridad global de cada colección"""
     ctxJep=getPolaridad("jep")
     ctxMinga=getPolaridad("minga")
     ctxVenezuela=getPolaridad("venezuela")
@@ -37,6 +38,7 @@ def charts(request):
     return render(request, "taller2/charts.html", context)
 
 def getPolaridad(coleccion):
+    """"Obtiene la polaridad de la colección enviada por parámetro"""
     if (coleccion=="jep"):
         col=collectionJep
     elif(coleccion=="minga"):
@@ -105,6 +107,35 @@ def getTopTuiteros(request):
     context = { "jep": json.dumps(topjep),"minga":json.dumps(topminga),"venezuela":json.dumps(topvenezuela)}
     print (context)
     return render(request,"taller2/toptuiteros.html",context)
+
+def getTopLugares(request):
+    """Obtener las cuentas que más tuitean"""
+    topjep=[]
+    topminga=[]
+    topvenezuela=[]
+    
+    topCursor=collectionJep.aggregate([{"$project" : {"user.location" : 1}},{"$group" : {"_id" : "$user.location", "count" : {"$sum" : 1}}},{"$sort" : {"count" : -1}},{"$limit" : 10}])
+    for top in topCursor:
+        x = top["_id"],top['count'],'color: #{:06x}'.format(randint(0, 256**3))
+        topjep.append(x)
+      
+
+    topCursor=collectionMinga.aggregate([{"$project" : {"user.location" : 1}},{"$group" : {"_id" : "$user.location", "count" : {"$sum" : 1}}},{"$sort" : {"count" : -1}},{"$limit" : 10}])
+    for top in topCursor:
+        x = top["_id"],top['count'],'color: #{:06x}'.format(randint(0, 256**3))
+        topminga.append(x)
+      
+
+    topCursor=collectionVenezuela.aggregate([{"$project" : {"user.location" : 1}},{"$group" : {"_id" : "$user.location", "count" : {"$sum" : 1}}},{"$sort" : {"count" : -1}},{"$limit" : 10}])
+    for top in topCursor:
+        x =top["_id"],top['count'],'color: #{:06x}'.format(randint(0, 256**3))
+        topvenezuela.append(x)
+       
+
+    
+    context = { "jep": json.dumps(topjep),"minga":json.dumps(topminga),"venezuela":json.dumps(topvenezuela)}
+    print (context)
+    return render(request,"taller2/toplugares.html",context)
 
 def getPalabrasClave(request):
     '''Metodo para extraer las palabras clave'''

@@ -12,4 +12,5 @@ urlpatterns = [
     path('polaridad/<coleccion>/<screen_name>/',views.getPolaridadCuenta,name='polaridad'),
     path('apoyo/',views.getApoyoGeneral,name='apoyo'),
     path('apoyocuenta/<coleccion>/<screen_name>/',views.getApoyoCuenta,name='apoyocuenta'),
+    path('toplugares/',views.getTopLugares,name='toplugares'),
 ]
