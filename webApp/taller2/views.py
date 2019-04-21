@@ -34,7 +34,7 @@ def charts(request):
 
     #context = {'dataPolarity': dataPolarity}
     context = {'jep': ctxJep,'minga':ctxMinga,'venezuela':ctxVenezuela}
-    print (context)
+    #print (context)
     return render(request, "taller2/charts.html", context)
 
 def getPolaridad(coleccion):
@@ -51,7 +51,7 @@ def getPolaridad(coleccion):
     neutro=0
     positivo=0
     for r in resultado:        
-        print(r)
+        #print(r)
         if (r.get("_id")=="Insulto"):
             insulto=r.get("count")
         elif (r.get("_id")=="Negativo"):
@@ -75,7 +75,7 @@ def hashtagWordCloud(request):
         i -= 1 
 
     random.shuffle(hashtagsArray)
-    print(hashtagsArray)
+    #print(hashtagsArray)
     context = { "hashtags": hashtagsArray}
     return render(request, "taller2/hashtagWordCloud.html", context)
 
@@ -105,7 +105,7 @@ def getTopTuiteros(request):
 
     
     context = { "jep": json.dumps(topjep),"minga":json.dumps(topminga),"venezuela":json.dumps(topvenezuela)}
-    print (context)
+    #print (context)
     return render(request,"taller2/toptuiteros.html",context)
 
 def getLugares(request):
@@ -114,32 +114,14 @@ def getLugares(request):
     topminga=[]
     topvenezuela=[]
     
-    topCursor=collectionJep.aggregate([{"$match":{"user.location":{"$ne":""}}},{"$project" : {"user.location" : 1}},{"$group" : {"_id" : "$user.location", "count" : {"$sum" : 1}}},{"$sort" : {"count" : -1}},{"$limit" : 30}])
+    #topCursor=collectionVenezuela.aggregate([{"$match":{"geo":{"$ne":None}}},{"$project":{"geo.coordinates":-1,"full_text":1}}])
+    #topCursor=collectionVenezuela.aggregate([{"$match":{"geo":{"$ne":None}}},{"$project":{"geo.coordinates":-1}},{"$group" : {"_id" : "$geo.coordinates", "count" : {"$sum" : 1}}}])
+    topCursor=collectionVenezuela.aggregate([{"$match":{"$and":[{"place.country":{"$ne":""}},{"place.country":{"$ne":None}}]}},{"$project":{"place.country":-1}},{"$group" : {"_id" : "$place.country", "count" : {"$sum" : 1}}}])
     for top in topCursor:
-        pais=top["_id"].replace("'","").split(', ')
-        print(pais)
-        p=""
-        if (len(pais)==2):
-            p=pais[1]
-        else:
-            p=pais[0]
-        x = p,top['count'],'color: #{:06x}'.format(randint(0, 256**3))
+
+        x = top['_id'],top['count']
         topjep.append(x)
-      
 
-    topCursor=collectionMinga.aggregate([{"$project" : {"user.location" : 1}},{"$group" : {"_id" : "$user.location", "count" : {"$sum" : 1}}},{"$sort" : {"count" : -1}},{"$limit" : 10}])
-    for top in topCursor:
-        x = top["_id"],top['count'],'color: #{:06x}'.format(randint(0, 256**3))
-        topminga.append(x)
-      
-
-    topCursor=collectionVenezuela.aggregate([{"$project" : {"user.location" : 1}},{"$group" : {"_id" : "$user.location", "count" : {"$sum" : 1}}},{"$sort" : {"count" : -1}},{"$limit" : 10}])
-    for top in topCursor:
-        x =top["_id"],top['count'],'color: #{:06x}'.format(randint(0, 256**3))
-        topvenezuela.append(x)
-       
-
-    
     context = { "jep": json.dumps(topjep),"minga":json.dumps(topminga),"venezuela":json.dumps(topvenezuela)}
     print (context)
     return render(request,"taller2/lugares.html",context)
@@ -170,7 +152,7 @@ def getTopLugares(request):
 
     
     context = { "jep": json.dumps(topjep),"minga":json.dumps(topminga),"venezuela":json.dumps(topvenezuela)}
-    print (context)
+    #print (context)
     return render(request,"taller2/toplugares.html",context)
 
 def getPalabrasClave(request):
@@ -195,7 +177,7 @@ def getPalabrasClave(request):
         topvenezuela.append(x)
     
     context = { "jep": json.dumps(topjep),"minga":json.dumps(topminga),"venezuela":json.dumps(topvenezuela)}
-    print (context)
+    #print (context)
     return render(request,"taller2/palabrasclave.html",context)
 
 def getApoyoCuenta(request, coleccion, screen_name):
@@ -213,7 +195,7 @@ def getApoyoCuenta(request, coleccion, screen_name):
     neutro=0
     positivo=0
     for r in curPolaridad:        
-        print(r)
+        #print(r)
         if (r.get("_id")=="Insulto"):
             insulto=r.get("count")
         elif (r.get("_id")=="Negativo"):
@@ -226,7 +208,7 @@ def getApoyoCuenta(request, coleccion, screen_name):
     dataPolarity = { 'Positivo':positivo, 'Neutro':neutro, 'Negativo':negativo, 'Insulto':insulto }   
     datos={'coleccion':coleccion,'screen_name':screen_name}
     context={'polaridad':dataPolarity,'datos':datos}
-    print (context)
+    #print (context)
     return render(request,"taller2/apoyocuenta.html",context)
 
 
@@ -246,7 +228,7 @@ def getPolaridadCuenta(request, coleccion, screen_name):
     neutro=0
     positivo=0
     for r in curPolaridad:        
-        print(r)
+        #print(r)
         if (r.get("_id")=="Insulto"):
             insulto=r.get("count")
         elif (r.get("_id")=="Negativo"):
@@ -262,7 +244,7 @@ def getPolaridadCuenta(request, coleccion, screen_name):
     
     datos={'coleccion':coleccion,'screen_name':screen_name}
     context={'polaridad':dataPolarity,'datos':datos}
-    print (context)
+    #print (context)
     return render(request,"taller2/polaridad.html",context)
 
 def getApoyoGeneral(request):
@@ -273,8 +255,8 @@ def getApoyoGeneral(request):
 
     #context = {'dataPolarity': dataPolarity}
     context = {'jep': ctxJep,'minga':ctxMinga,'venezuela':ctxVenezuela}
-    print("analizando retweets")
-    print (context)
+    #print("analizando retweets")
+    #print (context)
     return render(request, "taller2/apoyo.html", context)
 
 

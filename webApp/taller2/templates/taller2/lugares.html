@@ -16,26 +16,27 @@
       google.charts.setOnLoadCallback(drawRegionsMap);
 
       function drawRegionsMap() {
-        var data = google.visualization.arrayToDataTable([
-          ['Country', 'Popularity'],
-          ['Germany', 200],
-          ['United States', 300],
-          ['Brazil', 400],
-          ['Canada', 500],
-          ['France', 600],
-          ['RU', 700]
-        ]);
+        
 
         var dataJep = new google.visualization.DataTable();
-        dataJep.addColumn('string', 'Pais');
-        dataJep.addColumn('number', 'Cantidad');            
-        dataJep.addColumn({type:'string',role:'style'}); 
+        dataJep.addColumn('string', 'Pais');                   
+        dataJep.addColumn('number', 'Cantidad de Tweets');   
+        
 
         var djangoData=JSON.parse('{{ jep|safe }}');
         dataJep.addRows(djangoData)  
-        dataJep.removeColumn(2)
+        
 
-        var options = {};
+        var options = {
+            showTooltip: true,
+          showInfoWindow: true,
+            icons: {
+                 default: {
+                 normal: 'https://icons.iconarchive.com/icons/icons-land/vista-map-markers/48/Map-Marker-Ball-Azure-icon.png',
+                 selected: 'https://icons.iconarchive.com/icons/icons-land/vista-map-markers/48/Map-Marker-Ball-Right-Azure-icon.png'
+                }
+            }
+        };
 
         var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
 
@@ -44,9 +45,10 @@
     </script>
   </head>
   <body>
-        <h3>Top de ubicación de los usuarios</h3>
-        <p>Este es el top de las ubicaciones de los usuarios.</p>
+        <h3>Ubicación de los tweets</h3>
+        <p>Se hizo una georeferenciación a los tweets del dataset de Venezuela ya que es el que presenta más tweets con los datos necesarios</p>
     <div id="regions_div" style="width: 900px; height: 500px;"></div>
     <a class="btn btn-secondary m-3" href="/#taller2">Back</a>
   </body>
-</html>
+</html> 
+
