@@ -25,7 +25,7 @@ SECRET_KEY = 'wjs+3$bs^j=tu_iqi8=am^f4!-_s(8=sw)c48vn)xsf7uv+850'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["172.24.101.46","127.0.0.1"]
+ALLOWED_HOSTS = ["172.24.101.46","127.0.0.1","192.168.0.14"]
 
 
 # Application definition
@@ -33,6 +33,7 @@ ALLOWED_HOSTS = ["172.24.101.46","127.0.0.1"]
 INSTALLED_APPS = [
     'taller2',
     'lab',
+    'taller3',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
