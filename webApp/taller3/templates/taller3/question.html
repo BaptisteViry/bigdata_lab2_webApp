@@ -9,17 +9,6 @@
 </p>
 
 <table class="table table-bordered">
-    <thead>
-      <tr>
-       
-       
-          
-                
-        
-        
-        
-      </tr>
-    </thead>
     <tbody>   
         {% for question in questions %}   
         <tr>
@@ -69,7 +58,11 @@
           <td>
             <ul>
               {% for a in question.entities %}
-                <li>{{ a.entityType }}: {{ a.entityName }}:{{a.relevance}}</li>
+                {% if a.entityType == "City" %}
+                  <li>{{ a.entityType }}:<strong><a href="/taller3/lugar/{{ a.entityName }}"> {{ a.entityName }}</a></strong>: {{a.relevance}}</li>
+                {% else %}
+                  <li>{{ a.entityType }}: {{ a.entityName }}:{{a.relevance}}</li>
+                {% endif %}
               {% endfor %}
             </ul>            
           </td>

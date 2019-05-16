@@ -2,6 +2,9 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from pymongo import MongoClient
 from bson.objectid import ObjectId
+from SPARQLWrapper import SPARQLWrapper, JSON
+import json 
+
 
 from .forms import Question
 # Create your views here.
@@ -46,8 +49,59 @@ def question(request,id):
     query={'type':'pregunta',"_id":ObjectId(id)}
     
     q= list( entities.find(query,{'id':1,'title':1,'summary':1,'re_rank':1,'socialTags':1,'topics':1,'entities':1}))   
-    #print (str(q))
+    print (str(q))
     return render(request,'taller3/question.html',{'questions':q})
+
+def lugar(request, lugar):
+    resultado=get_lugar(lugar)
+    print (resultado)
+    return render(request,'taller3/lugar.html',{'lugar':resultado})
+
+def get_lugar(lugar):
+    sparql = SPARQLWrapper("https://dbpedia.org/sparql")
+    sparql.setQuery("""
+    prefix dbo: <http://dbpedia.org/ontology/>
+    prefix foaf: <http://xmlns.com/foaf/0.1/>
+    prefix : <http://dbpedia.org/resource/>
+
+    PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>
+    SELECT * WHERE {
+    ?x rdfs:label \""""+lugar+"""\"@en .
+    OPTIONAL{?x dbo:country ?country }.  
+    OPTIONAL{?x dbo:department ?department}.
+    OPTIONAL{?x geo:lat ?geolat} .
+    OPTIONAL{?x geo:long ?geolong} .
+
+    } limit 1
+    """)
+    sparql.setReturnFormat(JSON)
+    results = sparql.query().convert()
+    print (results)
+    print ('---------------')
+    resultado={}
+    for result in results["results"]["bindings"]:
+        try:
+            resultado['x']=result['x']['value']
+        except Exception as e:
+            print (e)
+        try:
+            resultado['country']=result['country']['value']
+        except Exception as e:
+            print (e)
+        try:
+            resultado['department']=result['department']['value']
+        except Exception as e:
+            print (e)
+        try:
+            resultado['geolat']=result['geolat']['value']
+        except Exception as e:
+            print (e)
+        try:
+            resultado['geolong']=result['geolong']['value']
+        except Exception as e:
+            print (e)
+       
+    return resultado
 
 
     
