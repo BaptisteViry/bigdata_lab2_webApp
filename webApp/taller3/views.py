@@ -22,10 +22,10 @@ def index(request):
             #id=request.GET.get('id')
             title=form.cleaned_data['title']
             ##title=request.GET.get('title')
-            print ('title---->'+str(title))
+            #print ('title---->'+str(title))
             summary = form.cleaned_data['summary']
             #summary = request.GET.get('summary')
-            print ('summary---->'+str(summary))
+            #print ('summary---->'+str(summary))
             if (id!=None):
                 query={'type':'pregunta',"id":{"$regex":"q/"+str(id)+"$"}}                
             elif (title!=None):
@@ -33,10 +33,10 @@ def index(request):
             else:
                 query={'type':'pregunta','summary': {'$regex': '.*'+summary+'.*','$options':'si'}}
             
-            print ("query===="+str(query))
+            #print ("query===="+str(query))
             #questions= list( entities.find(query,{'id':1,'title':1,'summary':1}))   
             questions= list( entities.aggregate([{"$project":{"llave":"$_id","id":"$id","title":"$title","summary":"$summary","type":"$type"}},{"$match":query}]))   
-            print(str(questions))    
+            #print(str(questions))    
     else:
         form=Question()
 
@@ -45,8 +45,8 @@ def index(request):
 def question(request,id):
     query={'type':'pregunta',"_id":ObjectId(id)}
     
-    q= list( entities.find(query,{'id':1,'title':1,'summary':1}))   
-    print (str(q))
+    q= list( entities.find(query,{'id':1,'title':1,'summary':1,'re_rank':1,'socialTags':1,'topics':1,'entities':1}))   
+    #print (str(q))
     return render(request,'taller3/question.html',{'questions':q})
 
 

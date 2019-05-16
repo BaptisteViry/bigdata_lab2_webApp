@@ -13,15 +13,47 @@
       <tr>
         <th>Id</th>
         <th>Title</th> 
-        <th>Summary</th>                
+        <th>Summary</th>    
+        <th>Rank</th>            
+        <th>Social Tags</th>
+        <th>Topics</th>
+        <th>Entities</th>
       </tr>
     </thead>
     <tbody>   
         {% for question in questions %}   
         <tr>
-          <td>{{ question.id }}</td>
+          <td><a href="{{ question.id }}">{{ question.id }}</a></td>
           <td>{{ question.title }}</td>     
-          <td>{{ question.summary}}</td>     
+          <td>
+              {% autoescape off %}                  
+                {{ question.summary}}
+              {% endautoescape %}
+          </td>
+          <td>
+            {{question.re_rank}}
+          </td>    
+          <td>
+            <ul>
+              {% for value1 in question.socialTags %}
+                <li>{{value1}}</li>
+               {% endfor %}
+            </ul>
+          </td> 
+          <td>
+              {% for value1 in question.topics %}
+              <li>{{value1}}</li>
+             {% endfor %}
+          </td> 
+          <td>
+            <ul>
+              {% for a in question.entities %}
+                <li>{{ a.entityType }}: {{ a.entityName }}:{{a.relevance}}</li>
+              {% endfor %}
+        </ul>
+
+           
+          </td> 
         </tr>
         {% endfor %}
     </tbody>
