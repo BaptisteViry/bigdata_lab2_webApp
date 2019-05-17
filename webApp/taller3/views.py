@@ -10,8 +10,8 @@ from .forms import Question
 # Create your views here.
 
 
-#client = MongoClient('bigdata-mongodb-04.virtual.uniandes.edu.co', 8087)
-client = MongoClient('localhost', 27017)
+client = MongoClient('bigdata-mongodb-04.virtual.uniandes.edu.co', 8087)
+#client = MongoClient('localhost', 27017)
 db = client.Grupo10_Taller3
 entities = db.music_questions_entities
 
