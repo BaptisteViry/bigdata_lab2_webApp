@@ -11,15 +11,15 @@
         <tbody>   
             
             <tr>
-              <th>Lugar</th>
+              <th>Id Lugar</th>
               <td><a href="{{ lugar.x }}">{{ lugar.x }}</a></td>
             </tr>
             <tr>
-                <th>Title</th> 
+                <th>Country</th> 
                 <td>{{ lugar.country }}</td>     
             </tr>
             <tr>
-                <th>Summary</th>  
+                <th>Latitud</th>  
                 <td>
                                  
                       {{ lugar.geolat}}
@@ -27,10 +27,16 @@
                 </td>
             </tr>
             <tr>
-              <th>Rank</th>   
+              <th>Longitud</th>   
               <td>
                 {{lugar.geolong}}
               </td>             
+            </tr>
+            <tr>
+            <th>Lugar en Mapa</th>   
+                <td>
+                    <a href="/taller3/map/{{lugar.lugar}}"">{{lugar.lugar}}</a>
+                </td>             
             </tr>
            
              

@@ -7,4 +7,5 @@ urlpatterns = [
     path('index', views.index, name='index'),
     path('question/<id>', views.question, name='question'),
     path('lugar/<lugar>', views.lugar, name='lugar'),
+    path('map/<lugar>', views.map, name='map'),
 ]

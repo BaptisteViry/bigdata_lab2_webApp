@@ -10,8 +10,8 @@ from .forms import Question
 # Create your views here.
 
 
-client = MongoClient('bigdata-mongodb-04.virtual.uniandes.edu.co', 8087)
-#client = MongoClient('localhost', 27017)
+#client = MongoClient('bigdata-mongodb-04.virtual.uniandes.edu.co', 8087)
+client = MongoClient('localhost', 27017)
 db = client.Grupo10_Taller3
 entities = db.music_questions_entities
 
@@ -100,8 +100,20 @@ def get_lugar(lugar):
             resultado['geolong']=result['geolong']['value']
         except Exception as e:
             print (e)
+        
+        resultado['lugar']=lugar
        
     return resultado
+
+def map(request,lugar):
+    resultado=get_lugar(lugar)
+   
+    lugar=[]
+    x=float(resultado['geolat']),float(resultado['geolong']),resultado["lugar"]
+    lugar.append(x)
+    print (lugar)
+    return render(request,'taller3/mapa.html',{"lugar":json.dumps(lugar)})
+
 
 
     
