@@ -8,4 +8,5 @@ urlpatterns = [
     path('question/<id>', views.question, name='question'),
     path('lugar/<lugar>', views.lugar, name='lugar'),
     path('map/<lugar>', views.map, name='map'),
+    path('persona/<persona>',views.persona,name='persona')
 ]

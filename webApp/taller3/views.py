@@ -7,6 +7,7 @@ import json
 
 
 from .forms import Question
+
 # Create your views here.
 
 
@@ -14,6 +15,9 @@ client = MongoClient('bigdata-mongodb-04.virtual.uniandes.edu.co', 8087)
 #client = MongoClient('localhost', 27017)
 db = client.Grupo10_Taller3
 entities = db.music_questions_entities
+
+
+
 
 def index(request):
     questions=""
@@ -46,11 +50,20 @@ def index(request):
     return render(request, 'taller3/index.html', {'form':form ,'questions': questions })
 
 def question(request,id):
-    query={'type':'pregunta',"_id":ObjectId(id)}
+    #query={'type':'pregunta',"_id":ObjectId(id)}
+    query={"_id":ObjectId(id)}
     
     q= list( entities.find(query,{'id':1,'title':1,'summary':1,'re_rank':1,'socialTags':1,'topics':1,'entities':1}))   
     print (str(q))
-    return render(request,'taller3/question.html',{'questions':q})
+
+    queryrespuesta={'type':'respuesta',"preguntaId":q[0]['id']}
+    print (str(queryrespuesta))
+    q2= list( entities.aggregate([{'$project':{"llave":"$_id","id":"$id","title":"$title","summary":"$summary","re_rank":"$re_rank","socialTags":"$socialTags","topics":"$topics","entities":"$entities","type":"$type","preguntaId":"$preguntaId"}},{"$match":queryrespuesta}]))   
+    print ("__________________________________________")
+    print(str(q2))
+    print ("__________________________________________")
+
+    return render(request,'taller3/question.html',{'question':q[0],'answers':q2})
 
 def lugar(request, lugar):
     resultado=get_lugar(lugar)
@@ -105,6 +118,48 @@ def get_lugar(lugar):
        
     return resultado
 
+    
+def queryPersona( name ):
+
+    sparql = SPARQLWrapper("https://dbpedia.org/sparql")
+    sparql.setQuery("""
+    prefix dbo: <http://dbpedia.org/ontology/>
+    prefix foaf: <http://xmlns.com/foaf/0.1/>
+    prefix : <http://dbpedia.org/resource/>
+
+    SELECT ?name ?birthName ?birth ?birthPlace ?spouse ?ubicacion ?person ?artistas
+    WHERE {      
+            ?person foaf:name ?name .
+            ?person foaf:name \""""+name+"""\"@en .
+            ?person dbo:birthDate ?birth .
+            ?person dbo:birthName ?birthName .
+            ?person dbo:birthPlace ?birthPlace .
+            OPTIONAL{?person dbo:spouse ?spouse}
+			OPTIONAL{?person dbo:partner ?spouse}
+			OPTIONAL{?person dbo:residence ?ubicacion}
+			  
+       } LIMIT 1
+    """)
+    sparql.setReturnFormat(JSON)
+    results = sparql.query().convert()
+    return results
+
+
+def queryRelacionados( name ):
+
+    name = name.replace(" ", "_")
+    sparql = SPARQLWrapper("https://dbpedia.org/sparql")
+    sparql.setQuery("""
+    prefix dbo: <http://dbpedia.org/ontology/>
+    prefix foaf: <http://xmlns.com/foaf/0.1/>
+    prefix : <http://dbpedia.org/resource/>
+
+    SELECT * WHERE { dbr:"""+name+"""^dbo:associatedMusicalArtist ?variable. }
+    """)
+    sparql.setReturnFormat(JSON)
+    results = sparql.query().convert()
+    return results
+
 def map(request,lugar):
     resultado=get_lugar(lugar)
    
@@ -113,6 +168,13 @@ def map(request,lugar):
     lugar.append(x)
     print (lugar)
     return render(request,'taller3/mapa.html',{"lugar":json.dumps(lugar)})
+
+def persona(request,persona):
+    datospersona=queryPersona(persona)
+    datosrelacionados=queryRelacionados(persona)
+    print ('datospersona'+str(datospersona))
+    print ('datosrelacionados'+str(datosrelacionados))
+    return render(request,'taller3/person.html',{"persona":datospersona,"relacionados":datosrelacionados})
 
 
 
