@@ -79,21 +79,23 @@
         
     </tbody>
   </table>
-  <h2>Respuestas</h2>
-  <table  class="table table-bordered">
-    <thead>
-      <th>Id</th>
-      <th>Title</th>
-    </thead>
-    <tbody>
-      {% for respuesta in answers %}
-      <tr>
-          <td><a href="/taller3/question/{{ respuesta.llave }}">{{ respuesta.llave }}</a></td>
-        <td>{{respuesta.title}}</td>
-      </tr>
-      
-      {% endfor %}
-    </tbody>
-  </table>
+  {% if answers %}
+    <h2>Respuestas</h2>
+    <table  class="table table-bordered">
+      <thead>
+        <th>Id</th>
+        <th>Title</th>
+      </thead>
+      <tbody>
+        {% for respuesta in answers %}
+        <tr>
+            <td><a href="/taller3/question/{{ respuesta.llave }}">{{ respuesta.llave }}</a></td>
+          <td>{{respuesta.title}}</td>
+        </tr>
+        
+        {% endfor %}
+      </tbody>
+    </table>
+    {% endif %}
 </body>
   </html>
