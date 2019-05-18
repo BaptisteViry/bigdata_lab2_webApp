@@ -8,7 +8,8 @@
     </head>
     <body>
             
-        <h1 class="display-4">Taller 3: Lugar</h1>
+        <h1 class="display-4">Taller 3: Persona</h1>
+        {%if persona %}
         <p>
             A continuación encontrará los datos de la persona
         </p>
@@ -16,41 +17,52 @@
             <tbody>   
                 
                 <tr>
-                    <th>Id Lugar</th>
-                    <td><a href="{{ lugar.x }}">{{ lugar.x }}</a></td>
+                    <th>Name</th>
+                    <td>{{persona.name.value }}</td>
                 </tr>
                 <tr>
-                    <th>Country</th> 
-                    <td>{{ lugar.country }}</td>     
+                    <th>Birth Name</th> 
+                    <td>{{ persona.birthName.value }}</td>     
                 </tr>
                 <tr>
-                    <th>Latitud</th>  
-                    <td>
-                                        
-                            {{ lugar.geolat}}
-                    
+                    <th>Birth</th>  
+                    <td>                                        
+                        {{ persona.birth.value}}                       
                     </td>
                 </tr>
                 <tr>
-                    <th>Longitud</th>   
+                    <th>Birth Place</th>   
                     <td>
-                    {{lugar.geolong}}
+                    {{persona.birthPlace.value}}
                     </td>             
                 </tr>
                 <tr>
-                <th>Lugar en Mapa</th>   
+                    <th>Spouse</th>   
                     <td>
-                        <a href="/taller3/map/{{lugar.lugar}}"">{{lugar.lugar}}</a>
+                        {{persona.spouse.value}}
                     </td>             
                 </tr>
-                
-                    
-                    
-                    
-                
-            
+                <tr>
+                    <th>Ubicación</th>   
+                    <td>
+                        {{persona.ubicacion.value}}
+                    </td>             
+                </tr>
+                <tr>
+                    <th>Person</th>   
+                    <td>
+                        {{persona.person.value}}
+                    </td>             
+                </tr>
             </tbody>
         </table>
+
+        <p>
+            Persona Relacionada <a href="{{relacionados.variable.value}}">{{relacionados.variable.value}}</a>
+        </p>
+       {% else %}
+        <p>No se encontraron datos</p>
+       {% endif %}
                 
     </body>
 </html>

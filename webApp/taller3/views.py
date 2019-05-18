@@ -88,8 +88,7 @@ def get_lugar(lugar):
     } limit 1
     """)
     sparql.setReturnFormat(JSON)
-    results = sparql.query().convert()
-    print (results)
+    results = sparql.query().convert()    
     print ('---------------')
     resultado={}
     for result in results["results"]["bindings"]:
@@ -115,7 +114,7 @@ def get_lugar(lugar):
             print (e)
         
         resultado['lugar']=lugar
-       
+    print ("Resultado: "+str(resultado))
     return resultado
 
     
@@ -131,9 +130,9 @@ def queryPersona( name ):
     WHERE {      
             ?person foaf:name ?name .
             ?person foaf:name \""""+name+"""\"@en .
-            ?person dbo:birthDate ?birth .
-            ?person dbo:birthName ?birthName .
-            ?person dbo:birthPlace ?birthPlace .
+            OPTIONAL{?person dbo:birthDate ?birth}
+            OPTIONAL{?person dbo:birthName ?birthName}
+            OPTIONAL{?person dbo:birthPlace ?birthPlace}
             OPTIONAL{?person dbo:spouse ?spouse}
 			OPTIONAL{?person dbo:partner ?spouse}
 			OPTIONAL{?person dbo:residence ?ubicacion}
@@ -170,8 +169,12 @@ def map(request,lugar):
     return render(request,'taller3/mapa.html',{"lugar":json.dumps(lugar)})
 
 def persona(request,persona):
-    datospersona=queryPersona(persona)
-    datosrelacionados=queryRelacionados(persona)
+    datospersona=queryPersona(persona)["results"]["bindings"]
+    if (datospersona):
+        datospersona=datospersona[0]        
+    datosrelacionados=queryRelacionados(persona)["results"]["bindings"]
+    if (datosrelacionados):
+        datosrelacionados=datosrelacionados[0]
     print ('datospersona'+str(datospersona))
     print ('datosrelacionados'+str(datosrelacionados))
     return render(request,'taller3/person.html',{"persona":datospersona,"relacionados":datosrelacionados})

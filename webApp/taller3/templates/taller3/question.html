@@ -61,7 +61,7 @@
           <td>
             <ul>
               {% for a in question.entities %}
-                {% if a.entityType == "City" %}
+                {% if a.entityType == "City" or a.entityType == "Country" %}
                   <li>{{ a.entityType }}:<strong><a href="/taller3/lugar/{{ a.entityName }}"> {{ a.entityName }}</a></strong>: {{a.relevance}}</li>
                 {% elif a.entityType == "Person" %}
                   <li>{{ a.entityType }}:<strong><a href="/taller3/persona/{{ a.entityName }}"> {{ a.entityName }}</a></strong>: {{a.relevance}}</li>
