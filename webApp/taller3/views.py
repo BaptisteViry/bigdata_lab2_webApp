@@ -35,16 +35,18 @@ def index(request):
             summary = form.cleaned_data['summary']
             #summary = request.GET.get('summary')
             #print ('summary---->'+str(summary))
+            print ("--->"+str(id)+","+str(title)+","+str(summary))
             if (id!=None):
                 query={'type':'pregunta',"id":{"$regex":"q/"+str(id)+"$"}}                
-            elif (title!=None):
+            elif (len(title)!=0):
                 query={'type':'pregunta','title': {'$regex': '.*'+title+'.*','$options':'si'}}
             else:
-                query={'type':'pregunta','summary': {'$regex': '.*'+summary+'.*','$options':'si'}}
+                #query={'type':'pregunta','summary': {'$regex': '.*'+summary+'.*','$options':'si'}}
+                 query={'$text': { '$search': summary }}
             
-            #print ("query===="+str(query))
-            #questions= list( entities.find(query,{'id':1,'title':1,'summary':1}))   
-            questions= list( entities.aggregate([{"$project":{"llave":"$_id","id":"$id","title":"$title","summary":"$summary","type":"$type"}},{"$match":query}]))   
+            print ("query===="+str(query))
+            #questions= list( entities.find(query,{'_id':1,'id':1,'title':1,'summary':1,'type':1}))
+            questions= list( entities.aggregate([{"$match":query},{"$project":{"llave":"$_id","id":"$id","title":"$title","summary":"$summary","type":"$type"}}]))   
             #print(str(questions))    
     else:
         form=Question()
