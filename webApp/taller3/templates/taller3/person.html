@@ -61,8 +61,59 @@
             Persona Relacionada <a href="{{relacionados.variable.value}}">{{relacionados.variable.value}}</a>
         </p>
        {% else %}
-        <p>No se encontraron datos</p>
+        <p>No se encontraron datos en DBpedia</p>
        {% endif %}
+       {% if dataSpotify %}
+
+       <h1 class="display-6">Datos en Spotify</h1>
+
+       <table class="table table-bordered">
+            <tbody>   
+                <tr>
+                    <th>Name en Spotify</th>
+                    <td>{{dataSpotify.name}}</td>
+                </tr>
+                <tr>
+                    <th>Genres</th> 
+                    <td>
+                        <ul class="list-group list-group-flush">
+                            {% for genre in dataSpotify.genres %}
+                                <li class="list-group-item col-3">{{ genre }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Followers</th>
+                    <td>{{dataSpotify.followers.total}}</td>
+                </tr>
+                <tr>
+                    <th>Popularity</th>
+                    <td>{{dataSpotify.popularity}}</td>
+                </tr>
+                <tr>
+                    <th>URL</th>
+                    <td>{{dataSpotify.external_urls.spotify}}</td>
+                </tr>
+                <tr>
+                    <th>URI en Spotify</th>
+                    <td>{{dataSpotify.uri}}</td>
+                </tr>
+                <tr>
+                    <th>Images</th>
+                    <td>
+                        <ul class="list-group list-group-flush">
+                            {% for value in dataSpotify.images %}
+                                <li class="list-group-item col-3"><a href="{{ value.url }}">image</a></li>
+                            {% endfor %}
+                        </ul>
+                    </td>               
+                </tr>
+            </tbody>
+        </table>
+        {% else %}
+        <p>No se encontraron datos en dataSpotify</p>
+        {% endif %}
        <a class="btn btn-secondary m-3" href="#" onclick="javascript: window.history.back();">Back</a>           
     </body>
 </html>

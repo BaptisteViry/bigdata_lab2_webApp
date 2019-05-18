@@ -4,6 +4,8 @@ from pymongo import MongoClient
 from bson.objectid import ObjectId
 from SPARQLWrapper import SPARQLWrapper, JSON
 import json 
+import spotipy
+from spotipy.oauth2 import SpotifyClientCredentials
 
 
 from .forms import Question
@@ -177,7 +179,8 @@ def persona(request,persona):
         datosrelacionados=datosrelacionados[0]
     #print ('datospersona'+str(datospersona))
     #print ('datosrelacionados'+str(datosrelacionados))
-    return render(request,'taller3/person.html',{"persona":datospersona,"relacionados":datosrelacionados})
+    dataSpotify = artistSpotify(persona)
+    return render(request,'taller3/person.html',{"persona":datospersona,"relacionados":datosrelacionados,"dataSpotify":dataSpotify})
 
 
 def buscartopic(request, topic):
@@ -185,7 +188,20 @@ def buscartopic(request, topic):
     #print ("Resultado: "+str(resultado))
     return render(request,'taller3/buscartopic.html',{"resultados":resultado})
 
+def artistSpotify(name):
+    #app IDs spotify API
+    client_id = "cadc150f1756478182ad73e997a16c93"
+    client_secret = "0064a9f31d284866a4afd6cc86001d03"
 
-    
+    #verification of the IDs
+    client_credentials_manager = SpotifyClientCredentials(client_id=client_id, client_secret=client_secret)
+
+    #connection spotify API
+    sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
+
+    results = sp.search(q='artist:' + name, type='artist')
+    if(results["artists"]["items"] != []):
+        dataSpotify = results["artists"]["items"][0]
+        return dataSpotify
 
  
