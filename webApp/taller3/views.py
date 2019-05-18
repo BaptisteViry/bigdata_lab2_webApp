@@ -175,10 +175,15 @@ def persona(request,persona):
     datosrelacionados=queryRelacionados(persona)["results"]["bindings"]
     if (datosrelacionados):
         datosrelacionados=datosrelacionados[0]
-    print ('datospersona'+str(datospersona))
-    print ('datosrelacionados'+str(datosrelacionados))
+    #print ('datospersona'+str(datospersona))
+    #print ('datosrelacionados'+str(datosrelacionados))
     return render(request,'taller3/person.html',{"persona":datospersona,"relacionados":datosrelacionados})
 
+
+def buscartopic(request, topic):
+    resultado=list(entities.aggregate([{"$project":{ "_id":0,  "llave":"$_id",  "title":"$title",  "summary":"$summary",  "re_rak":"$re_rank",  "topics":"$topics"}},{"$match":{"topics":topic}}]))
+    #print ("Resultado: "+str(resultado))
+    return render(request,'taller3/buscartopic.html',{"resultados":resultado})
 
 
     
