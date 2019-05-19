@@ -10,4 +10,6 @@ urlpatterns = [
     path('map/<lugar>', views.map, name='map'),
     path('persona/<persona>',views.persona,name='persona'),
     path('buscartopic/<topic>',views.buscartopic,name='buscartopic'),
+    path('streamTwitter/<searchText>', views.strTwitter, name='streamTwitter'),
+
 ]

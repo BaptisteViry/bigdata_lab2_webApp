@@ -1,0 +1,31 @@
+{% load crispy_forms_tags %}
+
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+    crossorigin="anonymous">
+<h5 class="display-4">Busqueda en Twitter Stream</h5>
+
+
+<div class="container">
+        <h4 class="display-4">Buscando {{ busqueda }}</h4>
+        <table class="table table-striped">
+            <thead><tr>
+                <th>Fecha</th>
+                <th>Usuario</th>
+                <th>Texto</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            {% for elemen in data %}
+            <tr>
+                <td>{{elemen.created_at}}</td>
+                <td>@{{elemen.user.screen_name}}</td>
+                <td>{{elemen.text}}</td>
+            </tr>
+            {% endfor %}
+
+            </tbody>
+        </table> 
+</div>
+<a class="btn btn-secondary m-3" href="#" onclick="javascript: window.history.back();">Back</a>

@@ -6,6 +6,10 @@ from SPARQLWrapper import SPARQLWrapper, JSON
 import json 
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
+from tweepy import Stream
+from tweepy import OAuthHandler
+from tweepy.streaming import StreamListener
+import tweepy
 
 
 from .forms import Question
@@ -207,3 +211,49 @@ def artistSpotify(name):
         return dataSpotify
 
  
+def strTwitter(request, searchText):
+
+    CONSUMER_KEY = "nqWae4EAcs4xSn9rVK4T0gZzS" 
+    CONSUMER_SECRET = "ekuALYxFHFxMxR7yQitc8fCg0XcWuaI3flMaBdNgyKnZtcsGJ7"
+    ACCESS_TOKEN = "4546199003-O19nOXfirpmgzMSuWJotbMNGYgAdHNpM7uyPqGz"
+    ACCESS_SECRET = "n2DQkLg0QLUprm1bgR9NrvRF6F3oLWL2CuEmK4pKBDZ5J" 
+
+    auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
+    auth.set_access_token(ACCESS_TOKEN, ACCESS_SECRET)
+
+    #searchText = " Michael  Jackson "
+
+    lisRead  =  listener()
+    twitterStream = Stream(auth, lisRead, lang='en', tweet_mode='extended')
+    twitterStream.filter(track=[searchText])
+ 
+    data = lisRead.datos
+    busqueda = searchText
+
+    print( "cantidad de datos ",str(len(data))) 
+
+    context={ 'data': data, "busqueda" : busqueda}    
+    return render(request, 'taller3/streamTwitter.html', context)
+
+class listener(StreamListener):
+
+    limit = 5
+    count = 0
+    datos = []
+
+    def on_status(self, status):
+        self.count+=1
+        return False if self.count == self.limit else True
+
+    def on_data(self, data):
+
+        print(data)
+        self.datos.append(json.loads(data))    
+        self.count+=1
+        if self.count == self.limit:
+            print("SALIDA POR LIMITE")
+        return False if self.count == self.limit else True
+
+    def on_error(self, status):
+        print(status)
+        return(False)

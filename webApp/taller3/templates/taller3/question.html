@@ -64,7 +64,7 @@
                 {% if a.entityType == "City" or a.entityType == "Country" %}
                   <li>{{ a.entityType }}:<strong><a href="/taller3/lugar/{{ a.entityName }}"> {{ a.entityName }}</a></strong>: {{a.relevance}}</li>
                 {% elif a.entityType == "Person" %}
-                  <li>{{ a.entityType }}:<strong><a href="/taller3/persona/{{ a.entityName }}"> {{ a.entityName }}</a></strong>: {{a.relevance}}</li>
+                  <li>{{ a.entityType }}:<strong><a href="/taller3/persona/{{ a.entityName }}"> {{ a.entityName }}</a></strong>: {{a.relevance}} - <a href="/taller3/streamTwitter/{{a.entityName}}">( click get data from Twitter)</a> </li>
                 {% else %}
                   <li>{{ a.entityType }}: {{ a.entityName }}:{{a.relevance}}</li>
                 {% endif %}
