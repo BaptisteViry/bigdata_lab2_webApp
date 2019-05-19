@@ -235,6 +235,13 @@ def lanzarcreacion(searchText):
     lisRead  =  listener()
     twitterStream = Stream(auth, lisRead, lang='en', tweet_mode='extended')
     twitterStream.filter(track=[searchText])
+
+def socialtag(request, tag):
+    query={'$text': { '$search': tag }}
+    print (str (query))
+    mytweets= list( tweets.aggregate([{"$match":query},{"$project":{"llave":"$_id","full_text":"$full_text","name":"$user.name","date":"$created_at"}}]))       
+    print(str(mytweets))
+    return render(request, 'taller3/tag.html',{"tweets":mytweets})
  
 class listener(StreamListener):
 
